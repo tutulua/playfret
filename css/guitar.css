@@ -1,0 +1,11 @@
+.fretboard-wrap { position:relative; margin:0 -16px; padding:22px 0 16px; overflow:hidden; background:#101113; border-block:1px solid #242629; }
+.fretboard { display:block; width:155%; height:196px; margin-left:-7%; filter:drop-shadow(0 9px 13px rgba(0,0,0,.6)); }
+.wood-grain path { stroke-width:2; }
+.frets rect { filter:drop-shadow(2px 0 1px #070707); }
+.strings path { filter:drop-shadow(0 2px 1px #050505); }
+.notes { fill:var(--accent); color:var(--accent); }
+.note-text { fill:#12140c; font:700 15px "DM Sans",sans-serif; text-anchor:middle; }
+.fret-labels { position:absolute; z-index:2; top:5px; left:10%; right:-35%; display:flex; justify-content:space-around; color:#666a6e; font-size:8px; font-weight:700; }
+.string-names { position:absolute; z-index:3; left:4px; top:39px; height:166px; display:flex; flex-direction:column; justify-content:space-between; color:#85888b; font-size:7px; text-shadow:0 1px 3px #000; }
+@media (min-width:520px){.fretboard{width:120%;margin-left:-2%;}.fret-labels{left:8%;right:-15%}}
+@media (min-width:700px){.fretboard-wrap{margin-inline:-25px}.fretboard{width:105%;margin-left:0;height:205px}.fret-labels{left:6%;right:2%}.string-names{left:8px}}
