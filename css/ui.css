@@ -1,0 +1,23 @@
+.lesson-card { position:relative; padding:20px 16px 17px; border:1px solid #2a2c2e; border-radius:23px; background:linear-gradient(155deg,rgba(29,31,34,.98),rgba(16,18,20,.98)); box-shadow:0 25px 70px rgba(0,0,0,.42),inset 0 1px rgba(255,255,255,.035); overflow:hidden; }
+.lesson-card::before { content:""; position:absolute; width:200px; height:200px; right:-90px; top:-100px; border-radius:50%; background:rgba(217,255,67,.04); filter:blur(10px); }
+.lesson-card__header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:2px 3px 0; }
+.lesson-number { color:var(--accent); font-size:9px; font-weight:700; letter-spacing:1.5px; }
+.lesson-card h2 { margin:6px 0 3px; font:700 21px/1.2 "Manrope",sans-serif; letter-spacing:-.55px; }
+.lesson-card__header p { margin:0; color:var(--muted); font-size:12px; }
+.progress-ring { --size:51px; width:var(--size); height:var(--size); flex:0 0 auto; display:grid; place-items:center; border-radius:50%; background:conic-gradient(var(--accent) calc(var(--progress)*1%),#303336 0); box-shadow:0 0 20px rgba(217,255,67,.08); }
+.progress-ring::before { content:""; position:absolute; width:42px; height:42px; border-radius:50%; background:#1a1c1f; }
+.progress-ring span { z-index:1; font-weight:700; font-size:13px; }.progress-ring small{font-size:8px;color:#a9adb0}
+.lesson-meta { display:flex; gap:7px; margin:17px 3px 16px; overflow:auto; scrollbar-width:none; }
+.lesson-meta span { display:flex; align-items:center; gap:5px; flex:none; padding:6px 9px; border:1px solid #303337; border-radius:7px; background:#202225; color:#a8abb0; font-size:9px; font-weight:600; }
+.lesson-meta svg { width:13px; fill:none; stroke:#c6c8c6; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.lesson-meta .tone i { width:6px; height:6px; border-radius:50%; background:#bc62ff; box-shadow:0 0 7px #bc62ff; }
+.player { display:flex; justify-content:center; align-items:center; gap:28px; padding-top:17px; }
+.player button { display:grid; place-items:center; border:0; cursor:pointer; color:#fff; }
+.skip-button { width:35px; height:35px; background:transparent; opacity:.48; }.skip-button svg{width:22px;fill:none;stroke:currentColor;stroke-width:1.5}
+.play-button { width:66px; height:66px; border-radius:50%; background:var(--accent); box-shadow:0 8px 27px rgba(217,255,67,.19),inset 0 0 0 1px rgba(255,255,255,.25); }.play-button svg{width:28px;fill:#14170e;margin-left:3px}
+.bottom-nav { position:fixed; z-index:10; left:0; right:0; bottom:0; height:84px; display:flex; justify-content:space-around; align-items:center; padding:8px max(12px,calc((100vw - 760px)/2)) max(10px,env(safe-area-inset-bottom)); border-top:1px solid #272a2d; background:rgba(15,16,18,.97); box-shadow:0 -12px 35px rgba(0,0,0,.25); }
+.bottom-nav a { width:65px; display:flex; flex-direction:column; align-items:center; gap:5px; color:#6f7379; text-decoration:none; font-size:9px; font-weight:600; }
+.bottom-nav svg { width:21px; height:21px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.bottom-nav .is-active { color:var(--accent); }.bottom-nav .is-active svg{filter:drop-shadow(0 0 5px rgba(217,255,67,.3))}
+.nav-practice { transform:translateY(-12px); }.nav-practice__icon{width:48px;height:48px;display:grid;place-items:center;border:1px solid #33372b;border-radius:16px;background:#20241b;color:var(--accent);box-shadow:0 7px 20px #090a0b}.nav-practice__icon svg{width:25px;height:25px}
+@media (min-width:700px){.lesson-card{padding:27px 25px 23px}.lesson-card h2{font-size:25px}.lesson-meta{margin-top:21px}.bottom-nav{left:50%;right:auto;width:min(100%,760px);transform:translateX(-50%);border:1px solid #292c30;border-bottom:0;border-radius:22px 22px 0 0}}
