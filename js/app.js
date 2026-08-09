@@ -4,8 +4,8 @@
 
   function init() {
     const fretboard = document.querySelector("[data-fretboard]");
-    if (fretboard && window.PlayFret?.Guitar) {
-      window.PlayFret.Guitar.mountFretboard(fretboard);
+    if (fretboard && window.PlayFret?.FretboardMaster) {
+      window.PlayFret.FretboardMaster.mount(fretboard);
     }
   }
 
