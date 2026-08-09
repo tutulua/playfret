@@ -3,9 +3,9 @@
   "use strict";
 
   function init() {
-    const fretboard = document.querySelector(".fretboard");
+    const fretboard = document.querySelector("[data-fretboard]");
     if (fretboard && window.PlayFret?.Guitar) {
-      window.PlayFret.Guitar.describeFretboard(fretboard);
+      window.PlayFret.Guitar.mountFretboard(fretboard);
     }
   }
 
