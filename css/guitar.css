@@ -18,16 +18,15 @@
 
 .fretboard-master {
   display: block;
-  width: max(920px, 138%);
+  width: 100%;
   height: 236px;
-  margin-left: -52px;
 }
 
 .fretboard-master__grain {
   fill: none;
   stroke: #d79667;
   stroke-width: 1.2;
-  opacity: .1;
+  opacity: .16;
 }
 
 .fretboard-master__grain path:nth-child(even) {
@@ -38,6 +37,10 @@
 .fretboard-master__frets {
   stroke: url(#master-fret);
   stroke-linecap: round;
+}
+
+.fretboard-master__nut {
+  filter: drop-shadow(3px 0 2px rgba(0, 0, 0, .85));
 }
 
 .fretboard-master__inlays {
@@ -59,10 +62,10 @@
 }
 
 @media (min-width: 520px) {
-  .fretboard-master { width: 122%; margin-left: -5%; }
+  .fretboard-master { height: 240px; }
 }
 
 @media (min-width: 700px) {
   .fretboard-wrap { margin-inline: -25px; }
-  .fretboard-master { width: 112%; height: 244px; margin-left: -3%; }
+  .fretboard-master { height: 244px; }
 }
