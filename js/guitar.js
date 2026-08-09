@@ -1,128 +1,118 @@
-/** Composable, dependency-free SVG fretboard. */
-(function guitarModule(global) {
+/** Fretboard MASTER v1.0 — composable, dependency-free SVG component. */
+(function fretboardMasterModule(global) {
   "use strict";
 
   const SVG_NS = "http://www.w3.org/2000/svg";
+  const WIDTH = 1200;
   const STRING_DATA = [
-    { name: "E", gauge: 5.2 },
-    { name: "A", gauge: 4.4 },
-    { name: "D", gauge: 3.6 },
-    { name: "G", gauge: 2.8 },
-    { name: "B", gauge: 2.1 },
-    { name: "e", gauge: 1.5 }
+    { name: "E", gauge: 6.4, y1: 67, y2: 78 },
+    { name: "A", gauge: 5.3, y1: 101, y2: 107 },
+    { name: "D", gauge: 4.2, y1: 135, y2: 136 },
+    { name: "G", gauge: 3.2, y1: 169, y2: 165 },
+    { name: "B", gauge: 2.4, y1: 203, y2: 194 },
+    { name: "e", gauge: 1.6, y1: 237, y2: 223 }
   ];
-  const FRET_POSITIONS = [42, 190, 330, 462, 587, 705, 816, 922, 1022];
+  const FRET_POSITIONS = [46, 211, 367, 514, 653, 784, 908, 1025, 1135];
 
-  function svgElement(tag, attributes = {}) {
-    const element = document.createElementNS(SVG_NS, tag);
-    Object.entries(attributes).forEach(([name, value]) => element.setAttribute(name, value));
-    return element;
+  function element(tag, attributes = {}) {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.entries(attributes).forEach(([name, value]) => node.setAttribute(name, value));
+    return node;
   }
 
-  function createDefinitions() {
-    const defs = svgElement("defs");
+  function Definitions() {
+    const defs = element("defs");
     defs.innerHTML = `
-      <linearGradient id="fretboard-wood" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#3b2016"/><stop offset=".18" stop-color="#28150f"/>
-        <stop offset=".52" stop-color="#4a281b"/><stop offset=".82" stop-color="#24130e"/><stop offset="1" stop-color="#3a1d14"/>
+      <linearGradient id="master-background" x1="0" y1="0" x2="0" y2="1">
+        <stop stop-color="#17191a"/><stop offset=".5" stop-color="#090a0b"/><stop offset="1" stop-color="#151718"/>
       </linearGradient>
-      <linearGradient id="fretboard-edge" x1="0" x2="0" y2="1">
-        <stop stop-color="#8b5b3b"/><stop offset=".35" stop-color="#2c160f"/><stop offset="1" stop-color="#140a07"/>
+      <linearGradient id="master-wood" x1="0" y1="0" x2="0" y2="1">
+        <stop stop-color="#4a291b"/><stop offset=".13" stop-color="#2b1710"/><stop offset=".48" stop-color="#402318"/><stop offset=".83" stop-color="#24120d"/><stop offset="1" stop-color="#4a281a"/>
       </linearGradient>
-      <linearGradient id="fret-metal" x1="0" x2="1">
-        <stop stop-color="#4a4a48"/><stop offset=".28" stop-color="#bcbab4"/><stop offset=".52" stop-color="#f2eee4"/><stop offset=".72" stop-color="#92918d"/><stop offset="1" stop-color="#3b3c3d"/>
+      <linearGradient id="master-edge" x1="0" y1="0" x2="0" y2="1">
+        <stop stop-color="#a06b45"/><stop offset=".22" stop-color="#3a1e14"/><stop offset=".8" stop-color="#190c09"/><stop offset="1" stop-color="#090504"/>
       </linearGradient>
-      <linearGradient id="string-metal" x1="0" y1="0" x2="0" y2="1">
-        <stop stop-color="#706f6b"/><stop offset=".34" stop-color="#f4f1e7"/><stop offset=".52" stop-color="#a9aaa7"/><stop offset="1" stop-color="#444545"/>
+      <linearGradient id="master-fret" x1="0" x2="1">
+        <stop stop-color="#555552"/><stop offset=".27" stop-color="#dedbd1"/><stop offset=".5" stop-color="#fffdf5"/><stop offset=".7" stop-color="#9c9b96"/><stop offset="1" stop-color="#393a3a"/>
       </linearGradient>
-      <radialGradient id="inlay-pearl" cx="35%" cy="28%">
-        <stop stop-color="#fffdf2"/><stop offset=".45" stop-color="#d8d4c6"/><stop offset="1" stop-color="#8b897f"/>
+      <linearGradient id="master-string" x1="0" y1="0" x2="0" y2="1">
+        <stop stop-color="#555653"/><stop offset=".3" stop-color="#fcfaf0"/><stop offset=".52" stop-color="#aaa9a3"/><stop offset="1" stop-color="#3e3f3e"/>
+      </linearGradient>
+      <radialGradient id="master-inlay" cx="32%" cy="26%">
+        <stop stop-color="#fffef4"/><stop offset=".42" stop-color="#d8d5c8"/><stop offset="1" stop-color="#89877e"/>
       </radialGradient>
-      <filter id="fret-shadow" x="-50%" width="200%"><feDropShadow dx="2.5" dy="0" stdDeviation="1.5" flood-color="#050302" flood-opacity=".8"/></filter>
-      <filter id="string-shadow" x="0" y="-100%" width="100%" height="300%"><feDropShadow dx="0" dy="2.5" stdDeviation="1.2" flood-color="#000" flood-opacity=".85"/></filter>`;
+      <filter id="master-neck-shadow" x="-10%" y="-30%" width="120%" height="170%"><feDropShadow dx="0" dy="15" stdDeviation="12" flood-color="#000" flood-opacity=".8"/></filter>
+      <filter id="master-fret-shadow" x="-100%" width="300%"><feDropShadow dx="3" dy="0" stdDeviation="1.5" flood-color="#000" flood-opacity=".9"/></filter>
+      <filter id="master-string-shadow" x="0" y="-200%" width="100%" height="500%"><feDropShadow dx="0" dy="3" stdDeviation="1.3" flood-color="#000" flood-opacity=".95"/></filter>
+      <clipPath id="master-neck-clip"><path d="M0 29L1200 46V254L0 271Z"/></clipPath>`;
     return defs;
   }
 
-  function createWood() {
-    const group = svgElement("g", { class: "fretboard__wood", "data-layer": "wood" });
+  /* Each named function owns one visual layer, ready for future controllers. */
+  function Background() {
+    const group = element("g", { id: "Background", class: "fretboard-master__background", "data-component": "Background" });
+    group.append(element("rect", { width: WIDTH, height: 300, fill: "url(#master-background)" }));
+    return group;
+  }
+
+  function Neck() {
+    const group = element("g", { id: "Neck", class: "fretboard-master__neck", "data-component": "Neck", filter: "url(#master-neck-shadow)" });
     group.innerHTML = `
-      <rect class="fretboard__edge" x="0" y="14" width="1080" height="252" rx="12" fill="url(#fretboard-edge)"/>
-      <rect x="0" y="20" width="1080" height="238" rx="8" fill="url(#fretboard-wood)"/>
-      <g class="fretboard__grain">
-        <path d="M0 52C135 24 225 75 364 45s239-3 360 8 236-28 356-8"/>
-        <path d="M0 101c184 31 302-29 474-5s310 16 606-11"/>
-        <path d="M0 154c128-20 272 20 410-5s292 14 430-5 168-4 240 3"/>
-        <path d="M0 213c166 28 290-20 441 2s266-15 401 2 171 8 238-5"/>
-        <path d="M54 20c83 82 25 146 105 238M522 20c-61 80 46 151-24 238M932 20c53 69-35 155 28 238"/>
+      <path class="fretboard-master__edge" d="M0 23L1200 41V261L0 277Z" fill="url(#master-edge)"/>
+      <path d="M0 29L1200 46V254L0 271Z" fill="url(#master-wood)"/>
+      <g class="fretboard-master__grain" clip-path="url(#master-neck-clip)">
+        <path d="M-20 60C128 31 253 88 407 55s257 2 389 11 269-28 425-5"/>
+        <path d="M-20 112c191 30 319-26 501-4s342 14 740-12"/>
+        <path d="M-20 171c159-25 298 19 457-7s307 14 467-5 231-3 317 2"/>
+        <path d="M-20 230c195 30 327-21 500 1s286-15 446 2 213 8 295-7"/>
+        <path d="M128 18c68 77 20 174 91 264M584 25c-60 75 42 168-30 250M1042 35c52 68-29 157 30 230"/>
       </g>`;
     return group;
   }
 
-  function createFrets() {
-    const group = svgElement("g", { class: "fretboard__frets", "data-layer": "frets" });
+  function Frets() {
+    const group = element("g", { id: "Frets", class: "fretboard-master__frets", "data-component": "Frets", filter: "url(#master-fret-shadow)" });
     FRET_POSITIONS.forEach((x, index) => {
-      group.append(svgElement("rect", { x, y: 19, width: index === 0 ? 9 : 5, height: 240, rx: 2, fill: "url(#fret-metal)", "data-fret": index }));
+      const inset = 29 + (17 * x / WIDTH);
+      group.append(element("line", { x1: x, y1: inset, x2: x, y2: 300 - inset, "stroke-width": index === 0 ? 11 : 6, "data-fret": index }));
     });
     return group;
   }
 
-  function createMarkers() {
-    const group = svgElement("g", { class: "fretboard__markers", "data-layer": "markers" });
-    [396, 646, 869].forEach((cx) => group.append(svgElement("circle", { cx, cy: 139, r: 8 })));
-    [972, 972].forEach((cx, index) => group.append(svgElement("circle", { cx, cy: index ? 173 : 105, r: 7.5 })));
-    return group;
-  }
-
-  function createStrings() {
-    const group = svgElement("g", { class: "fretboard__strings", "data-layer": "strings" });
-    STRING_DATA.forEach((string, index) => {
-      const y = 48 + index * 36.4;
-      group.append(svgElement("line", { x1: 0, y1: y, x2: 1080, y2: y, "stroke-width": string.gauge, "data-string": string.name, "data-string-index": index }));
+  function Inlays() {
+    const group = element("g", { id: "Inlays", class: "fretboard-master__inlays", "data-component": "Inlays" });
+    [[440, 150], [719, 150], [968, 150], [1081, 121], [1081, 179]].forEach(([cx, cy]) => {
+      group.append(element("ellipse", { cx, cy, rx: 10, ry: 7 }));
     });
     return group;
   }
 
-  function createFretboard() {
-    const svg = svgElement("svg", { class: "fretboard", viewBox: "0 0 1080 280", preserveAspectRatio: "xMidYMid meet", role: "img", "aria-labelledby": "fretboard-title fretboard-description" });
-    const title = svgElement("title", { id: "fretboard-title" });
+  function StringLayer(string, index) {
+    const number = index + 1;
+    const group = element("g", { id: `String${number}`, class: `fretboard-master__string fretboard-master__string--${number}`, "data-component": `String${number}`, "data-string": string.name, "data-string-index": index });
+    group.append(element("line", { x1: 0, y1: string.y1, x2: WIDTH, y2: string.y2, "stroke-width": string.gauge }));
+    return group;
+  }
+
+  function createFretboardMaster() {
+    const svg = element("svg", { class: "fretboard-master", viewBox: "0 0 1200 300", preserveAspectRatio: "xMidYMid meet", role: "img", "aria-labelledby": "fretboard-master-title fretboard-master-description" });
+    const title = element("title", { id: "fretboard-master-title" });
     title.textContent = "Mástil de guitarra de seis cuerdas";
-    const description = svgElement("desc", { id: "fretboard-description" });
-    description.textContent = "Diapasón de madera oscura con trastes, marcadores de nácar y seis cuerdas de distinto calibre.";
-    svg.append(title, description, createDefinitions(), createWood(), createMarkers(), createFrets(), createStrings());
+    const description = element("desc", { id: "fretboard-master-description" });
+    description.textContent = "Diapasón de madera oscura en perspectiva, con trastes metálicos, marcadores ovalados y seis cuerdas de distinto calibre.";
+    svg.append(title, description, Definitions(), Background(), Neck(), Inlays(), Frets());
+    STRING_DATA.forEach((string, index) => svg.append(StringLayer(string, index)));
     return svg;
   }
 
-  function createFretLabels() {
-    const labels = document.createElement("div");
-    labels.className = "fretboard__labels";
-    labels.setAttribute("aria-hidden", "true");
-    labels.innerHTML = "<span>1</span><span>3</span><span>5</span><span>7</span><span>9</span><span>12</span>";
-    return labels;
-  }
-
-  function createStringLabels() {
-    const labels = document.createElement("div");
-    labels.className = "fretboard__tunings";
-    labels.setAttribute("aria-hidden", "true");
-    STRING_DATA.forEach(({ name }) => {
-      const label = document.createElement("span");
-      label.textContent = name;
-      labels.append(label);
-    });
-    return labels;
-  }
-
-  function mountFretboard(container) {
-    container.replaceChildren(createFretLabels(), createFretboard(), createStringLabels());
-    return describeFretboard(container);
-  }
-
-  function describeFretboard(element) {
-    const strings = element.querySelectorAll("[data-string]").length;
-    element.dataset.strings = String(strings);
-    return strings;
+  function mount(container) {
+    container.replaceChildren(createFretboardMaster());
+    container.dataset.strings = String(STRING_DATA.length);
+    return STRING_DATA.length;
   }
 
   global.PlayFret = global.PlayFret || {};
-  global.PlayFret.Guitar = { createFretboard, mountFretboard, describeFretboard };
+  global.PlayFret.FretboardMaster = { create: createFretboardMaster, mount };
+  // Keep the bootstrap contract stable while fully replacing the old component.
+  global.PlayFret.Guitar = { createFretboard: createFretboardMaster, mountFretboard: mount };
 }(window));
