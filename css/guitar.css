@@ -1,11 +1,96 @@
-.fretboard-wrap { position:relative; margin:0 -16px; padding:22px 0 16px; overflow:hidden; background:#101113; border-block:1px solid #242629; }
-.fretboard { display:block; width:155%; height:196px; margin-left:-7%; filter:drop-shadow(0 9px 13px rgba(0,0,0,.6)); }
-.wood-grain path { stroke-width:2; }
-.frets rect { filter:drop-shadow(2px 0 1px #070707); }
-.strings path { filter:drop-shadow(0 2px 1px #050505); }
-.notes { fill:var(--accent); color:var(--accent); }
-.note-text { fill:#12140c; font:700 15px "DM Sans",sans-serif; text-anchor:middle; }
-.fret-labels { position:absolute; z-index:2; top:5px; left:10%; right:-35%; display:flex; justify-content:space-around; color:#666a6e; font-size:8px; font-weight:700; }
-.string-names { position:absolute; z-index:3; left:4px; top:39px; height:166px; display:flex; flex-direction:column; justify-content:space-between; color:#85888b; font-size:7px; text-shadow:0 1px 3px #000; }
-@media (min-width:520px){.fretboard{width:120%;margin-left:-2%;}.fret-labels{left:8%;right:-15%}}
-@media (min-width:700px){.fretboard-wrap{margin-inline:-25px}.fretboard{width:105%;margin-left:0;height:205px}.fret-labels{left:6%;right:2%}.string-names{left:8px}}
+.fretboard-wrap {
+  position: relative;
+  margin: 0 -16px;
+  padding: 27px 0 20px;
+  overflow: hidden;
+  border-block: 1px solid #242629;
+  background: radial-gradient(ellipse at center, #1b1d1e 0, #0c0d0f 72%);
+  isolation: isolate;
+}
+
+.fretboard-wrap::after {
+  position: absolute;
+  z-index: 3;
+  inset: 27px 0 20px;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(7, 8, 9, .65), transparent 5%, transparent 92%, rgba(7, 8, 9, .72));
+}
+
+.fretboard {
+  display: block;
+  width: max(900px, 132%);
+  height: 208px;
+  margin-left: -38px;
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, .72));
+}
+
+.fretboard__grain {
+  fill: none;
+  stroke: #d89565;
+  stroke-width: 1.15;
+  opacity: .11;
+}
+
+.fretboard__grain path:nth-child(even) { stroke: #130907; opacity: .9; }
+.fretboard__frets rect { filter: url(#fret-shadow); }
+.fretboard__markers { fill: url(#inlay-pearl); opacity: .78; }
+
+.fretboard__strings {
+  fill: none;
+  stroke: url(#string-metal);
+  stroke-linecap: round;
+  filter: url(#string-shadow);
+}
+
+.fretboard__strings line {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.fretboard__labels {
+  position: absolute;
+  z-index: 4;
+  top: 8px;
+  left: 7%;
+  width: 118%;
+  display: flex;
+  justify-content: space-around;
+  color: #6f7274;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .08em;
+}
+
+.fretboard__tunings {
+  position: absolute;
+  z-index: 4;
+  top: 59px;
+  left: 8px;
+  height: 139px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #b8b9b6;
+  font-size: 7px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 2px 3px #000;
+}
+
+@media (min-width: 520px) {
+  .fretboard { width: 118%; margin-left: -3%; }
+  .fretboard__labels { left: 5%; width: 108%; }
+}
+
+@media (min-width: 700px) {
+  .fretboard-wrap { margin-inline: -25px; }
+  .fretboard { width: 108%; height: 220px; margin-left: -2%; }
+  .fretboard__labels { left: 4%; width: 99%; }
+  .fretboard__tunings { top: 62px; left: 13px; height: 147px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fretboard__strings line { transition: none; }
+}

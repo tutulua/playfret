@@ -58,26 +58,7 @@
           <span class="tone"><i></i>Distorsión</span>
         </div>
 
-        <section class="fretboard-wrap" aria-label="Diagrama del mástil de guitarra">
-          <div class="fret-labels" aria-hidden="true"><span>3</span><span>5</span><span>7</span><span>9</span><span>12</span></div>
-          <svg class="fretboard" viewBox="0 0 900 250" preserveAspectRatio="none" role="img" aria-labelledby="fret-title fret-desc">
-            <title id="fret-title">Mástil de guitarra de seis cuerdas</title>
-            <desc id="fret-desc">Diagrama de madera oscura con seis cuerdas, trastes metálicos y posiciones del riff.</desc>
-            <defs>
-              <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#36231b"/><stop offset=".5" stop-color="#1d1411"/><stop offset="1" stop-color="#3a251c"/></linearGradient>
-              <linearGradient id="metal" x1="0" x2="1"><stop stop-color="#807f7d"/><stop offset=".45" stop-color="#e1ded7"/><stop offset="1" stop-color="#5f5e5c"/></linearGradient>
-              <filter id="glow"><feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-            </defs>
-            <rect width="900" height="250" rx="14" fill="url(#wood)"/>
-            <g class="wood-grain" opacity=".16" fill="none" stroke="#d19465"><path d="M0 42C180 10 300 70 490 39S710 14 900 48"/><path d="M0 195c150-30 285 34 460-2s282-8 440 6"/><path d="M0 112c180 18 270-25 440 3s290 9 460-4"/></g>
-            <g class="frets" fill="url(#metal)"><rect x="120" width="5" height="250"/><rect x="270" width="5" height="250"/><rect x="420" width="5" height="250"/><rect x="570" width="5" height="250"/><rect x="720" width="6" height="250"/></g>
-            <g class="inlays" fill="#d9d1c3" opacity=".6"><circle cx="197" cy="125" r="7"/><circle cx="497" cy="125" r="7"/><circle cx="647" cy="125" r="7"/><circle cx="797" cy="94" r="6"/><circle cx="797" cy="156" r="6"/></g>
-            <g class="strings" stroke="url(#metal)"><path d="M0 32H900" stroke-width="2"/><path d="M0 69H900" stroke-width="2.5"/><path d="M0 106H900" stroke-width="3"/><path d="M0 144H900" stroke-width="3.7"/><path d="M0 181H900" stroke-width="4.5"/><path d="M0 218H900" stroke-width="5.5"/></g>
-            <g class="notes" filter="url(#glow)"><circle cx="197" cy="144" r="17"/><circle cx="347" cy="144" r="17"/><circle cx="497" cy="144" r="17"/></g>
-            <g class="note-text"><text x="197" y="150">3</text><text x="347" y="150">5</text><text x="497" y="150">7</text></g>
-          </svg>
-          <div class="string-names" aria-hidden="true"><span>E</span><span>A</span><span>D</span><span>G</span><span>B</span><span>e</span></div>
-        </section>
+        <section class="fretboard-wrap" data-fretboard aria-label="Diagrama del mástil de guitarra"></section>
 
         <footer class="player">
           <button class="skip-button" type="button" aria-label="Paso anterior"><svg viewBox="0 0 24 24"><path d="M7 5v14M19 6l-9 6 9 6V6Z"/></svg></button>
