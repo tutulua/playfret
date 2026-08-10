@@ -4,17 +4,17 @@
 
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEWBOX = { width: 1200, height: 300 };
-  const NECK = { left: 24, right: 33, bottomLeft: 276, bottomRight: 267 };
+  const NECK = { left: 24, right: 30, bottomLeft: 276, bottomRight: 270 };
   const NUT_X = 62;
   const FRET_X = [166, 265, 359, 448, 533, 613, 689, 761, 829, 894, 955, 1013];
   const INLAY_FRETS = [3, 5, 7, 9, 12];
   const STRINGS = [
-    { name: "low-e", label: "E", gauge: 4.8, color: "#9d998f" },
-    { name: "a", label: "A", gauge: 4, color: "#b4afa4" },
-    { name: "d", label: "D", gauge: 3.3, color: "#c8c3b7" },
-    { name: "g", label: "G", gauge: 2.1, color: "#d4d1c8" },
-    { name: "b", label: "B", gauge: 1.5, color: "#e0ddd4" },
-    { name: "high-e", label: "e", gauge: 1, color: "#eeeae1" }
+    { name: "low-e", label: "E", gauge: 5.2, color: "#97958f" },
+    { name: "a", label: "A", gauge: 4.3, color: "#aaa8a1" },
+    { name: "d", label: "D", gauge: 3.5, color: "#bebbb4" },
+    { name: "g", label: "G", gauge: 1.9, color: "#cbc9c3" },
+    { name: "b", label: "B", gauge: 1.3, color: "#d9d6cf" },
+    { name: "high-e", label: "e", gauge: 0.85, color: "#e5e2da" }
   ];
 
   function svgElement(tag, attributes = {}) {
@@ -63,9 +63,11 @@
 
     const metal = svgElement("linearGradient", { id: "master-fret", x1: 0, y1: 0, x2: 1, y2: 0 });
     metal.append(
-      svgElement("stop", { "stop-color": "#706f6a" }),
-      svgElement("stop", { offset: 0.45, "stop-color": "#f2efe5" }),
-      svgElement("stop", { offset: 1, "stop-color": "#777671" })
+      svgElement("stop", { "stop-color": "#66645f" }),
+      svgElement("stop", { offset: 0.28, "stop-color": "#aaa79f" }),
+      svgElement("stop", { offset: 0.56, "stop-color": "#d0cdc4" }),
+      svgElement("stop", { offset: 0.78, "stop-color": "#8b8983" }),
+      svgElement("stop", { offset: 1, "stop-color": "#5f5e5a" })
     );
 
     definitions.append(background, wood, metal);
@@ -86,11 +88,11 @@
     const group = layer("Neck");
     group.append(
       svgElement("path", {
-        d: "M0 18 L1200 27 L1200 273 L0 282 Z",
+        d: "M0 18 L1192 24 Q1200 24 1200 32 L1200 268 Q1200 276 1192 276 L0 282 Z",
         fill: "#160c09"
       }),
       svgElement("path", {
-        d: `M0 ${NECK.left} L1200 ${NECK.right} L1200 ${NECK.bottomRight} L0 ${NECK.bottomLeft} Z`,
+        d: `M0 ${NECK.left} L1192 ${NECK.right} Q1200 ${NECK.right} 1200 ${NECK.right + 8} L1200 ${NECK.bottomRight - 8} Q1200 ${NECK.bottomRight} 1192 ${NECK.bottomRight} L0 ${NECK.bottomLeft} Z`,
         fill: "url(#master-wood)"
       }),
       svgElement("path", {
@@ -152,11 +154,11 @@
       const top = neckTopAt(x);
       const bottom = neckBottomAt(x);
       group.append(svgElement("rect", {
-        x: x - 2.1,
+        x: x - 1.65,
         y: top,
-        width: 4.2,
+        width: 3.3,
         height: bottom - top,
-        rx: 2,
+        rx: 1.65,
         fill: "url(#master-fret)",
         "data-fret": index + 1
       }));
@@ -176,7 +178,7 @@
       const center = neckCenterAt(x);
       const stringSpacing = (neckBottomAt(x) - neckTopAt(x)) / (STRINGS.length + 1);
       const positions = fretNumber === 12
-        ? [center - (stringSpacing * 0.72), center + (stringSpacing * 0.72)]
+        ? [center - (stringSpacing * 0.68), center + (stringSpacing * 0.68)]
         : [center];
       positions.forEach((y) => {
         group.append(svgElement("ellipse", {
