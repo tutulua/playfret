@@ -1,0 +1,25 @@
+{
+  "id": "smoke-on-the-water",
+  "title": "Smoke on the Water",
+  "artist": "Deep Purple",
+  "section": "Riff principal",
+  "difficulty": "beginner",
+  "durationSeconds": 16,
+  "tempo": 112,
+  "timeSignature": "4/4",
+  "tuning": ["E2", "A2", "D3", "G3", "B3", "E4"],
+  "events": [
+    { "timeMs": 0, "durationMs": 429, "string": 4, "fret": 0 },
+    { "timeMs": 536, "durationMs": 429, "string": 4, "fret": 3 },
+    { "timeMs": 1071, "durationMs": 643, "string": 4, "fret": 5 },
+    { "timeMs": 2143, "durationMs": 429, "string": 4, "fret": 0 },
+    { "timeMs": 2679, "durationMs": 429, "string": 4, "fret": 3 },
+    { "timeMs": 3214, "durationMs": 429, "string": 4, "fret": 6 },
+    { "timeMs": 3750, "durationMs": 857, "string": 4, "fret": 5 },
+    { "timeMs": 5357, "durationMs": 429, "string": 4, "fret": 0 },
+    { "timeMs": 5893, "durationMs": 429, "string": 4, "fret": 3 },
+    { "timeMs": 6429, "durationMs": 643, "string": 4, "fret": 5 },
+    { "timeMs": 7500, "durationMs": 429, "string": 4, "fret": 3 },
+    { "timeMs": 8036, "durationMs": 857, "string": 4, "fret": 0 }
+  ]
+}
