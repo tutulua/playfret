@@ -4,17 +4,17 @@
 
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEWBOX = { width: 1200, height: 300 };
-  const NECK = { left: 24, right: 46, bottomLeft: 276, bottomRight: 254 };
+  const NECK = { left: 24, right: 33, bottomLeft: 276, bottomRight: 267 };
   const NUT_X = 62;
   const FRET_X = [166, 265, 359, 448, 533, 613, 689, 761, 829, 894, 955, 1013];
   const INLAY_FRETS = [3, 5, 7, 9, 12];
   const STRINGS = [
-    { name: "low-e", label: "E", gauge: 4.6, color: "#a9a49a" },
-    { name: "a", label: "A", gauge: 3.9, color: "#bbb6aa" },
-    { name: "d", label: "D", gauge: 3.2, color: "#cbc6b9" },
-    { name: "g", label: "G", gauge: 2.5, color: "#d7d3c8" },
-    { name: "b", label: "B", gauge: 1.8, color: "#e1ded5" },
-    { name: "high-e", label: "e", gauge: 1.2, color: "#ece9df" }
+    { name: "low-e", label: "E", gauge: 4.8, color: "#9d998f" },
+    { name: "a", label: "A", gauge: 4, color: "#b4afa4" },
+    { name: "d", label: "D", gauge: 3.3, color: "#c8c3b7" },
+    { name: "g", label: "G", gauge: 2.1, color: "#d4d1c8" },
+    { name: "b", label: "B", gauge: 1.5, color: "#e0ddd4" },
+    { name: "high-e", label: "e", gauge: 1, color: "#eeeae1" }
   ];
 
   function svgElement(tag, attributes = {}) {
@@ -39,6 +39,10 @@
 
   function neckBottomAt(x) {
     return NECK.bottomLeft + ((NECK.bottomRight - NECK.bottomLeft) * x / VIEWBOX.width);
+  }
+
+  function neckCenterAt(x) {
+    return (neckTopAt(x) + neckBottomAt(x)) / 2;
   }
 
   function createDefinitions() {
@@ -82,12 +86,33 @@
     const group = layer("Neck");
     group.append(
       svgElement("path", {
-        d: "M0 18 L1200 40 L1200 260 L0 282 Z",
+        d: "M0 18 L1200 27 L1200 273 L0 282 Z",
         fill: "#160c09"
       }),
       svgElement("path", {
         d: `M0 ${NECK.left} L1200 ${NECK.right} L1200 ${NECK.bottomRight} L0 ${NECK.bottomLeft} Z`,
         fill: "url(#master-wood)"
+      }),
+      svgElement("path", {
+        d: "M18 71 C286 62 510 80 772 68 S1050 72 1182 65",
+        fill: "none",
+        stroke: "#704431",
+        "stroke-width": 1.2,
+        opacity: 0.22
+      }),
+      svgElement("path", {
+        d: "M12 215 C228 229 462 206 688 218 S1004 215 1185 226",
+        fill: "none",
+        stroke: "#160d0a",
+        "stroke-width": 1.4,
+        opacity: 0.28
+      }),
+      svgElement("path", {
+        d: "M24 118 C270 126 510 108 736 121 S1015 116 1176 125",
+        fill: "none",
+        stroke: "#623827",
+        "stroke-width": 0.8,
+        opacity: 0.18
       })
     );
     return group;
@@ -97,14 +122,27 @@
     const group = layer("Nut");
     const top = neckTopAt(NUT_X);
     const bottom = neckBottomAt(NUT_X);
-    group.append(svgElement("rect", {
-      x: NUT_X - 5,
-      y: top,
-      width: 10,
-      height: bottom - top,
-      rx: 2,
-      fill: "#e8dfc9"
-    }));
+    group.append(
+      svgElement("rect", {
+        x: NUT_X - 5,
+        y: top,
+        width: 10,
+        height: bottom - top,
+        rx: 2,
+        fill: "#ddd2bc",
+        stroke: "#a99d88",
+        "stroke-width": 0.8
+      }),
+      svgElement("line", {
+        x1: NUT_X - 2.5,
+        y1: top + 3,
+        x2: NUT_X - 2.5,
+        y2: bottom - 3,
+        stroke: "#fff8e6",
+        "stroke-width": 0.8,
+        opacity: 0.65
+      })
+    );
     return group;
   }
 
@@ -114,9 +152,9 @@
       const top = neckTopAt(x);
       const bottom = neckBottomAt(x);
       group.append(svgElement("rect", {
-        x: x - 3,
+        x: x - 2.1,
         y: top,
-        width: 6,
+        width: 4.2,
         height: bottom - top,
         rx: 2,
         fill: "url(#master-fret)",
@@ -135,7 +173,11 @@
     const group = layer("Inlays");
     INLAY_FRETS.forEach((fretNumber) => {
       const x = fretCenter(fretNumber);
-      const positions = fretNumber === 12 ? [126, 174] : [150];
+      const center = neckCenterAt(x);
+      const stringSpacing = (neckBottomAt(x) - neckTopAt(x)) / (STRINGS.length + 1);
+      const positions = fretNumber === 12
+        ? [center - (stringSpacing * 0.72), center + (stringSpacing * 0.72)]
+        : [center];
       positions.forEach((y) => {
         group.append(svgElement("ellipse", {
           cx: x,
