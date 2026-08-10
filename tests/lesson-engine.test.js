@@ -33,8 +33,9 @@ test("advances through events and resets playback", async () => {
   assert.equal(engine.getNextEvent().timeMs, 10);
 });
 
-test("loads JSON through an injected fetcher", async () => {
-  const fetcher = async (url) => {
+test("loads JSON through an injected fetcher with the global fetch receiver", async () => {
+  const fetcher = async function fetchLesson(url) {
+    assert.equal(this, globalThis);
     assert.equal(url, "/lessons/example.json");
     return {
       ok: true,

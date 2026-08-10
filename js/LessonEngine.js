@@ -36,7 +36,7 @@
         throw new Error("LessonEngine requires a fetch implementation to load a URL.");
       }
 
-      const response = await this.fetcher(url);
+      const response = await this.fetcher.call(global, url);
       if (!response.ok) {
         throw new Error(`Unable to load lesson (${response.status} ${response.statusText}).`);
       }
