@@ -22,16 +22,36 @@
 
   /** Visual target component. Its hit area is exposed for future hand collisions. */
   class TargetMarker {
-    constructor(radius) {
+    constructor(radius, role) {
       this.element = svgNode("circle", {
-        class: "target-marker",
         r: radius,
         "aria-hidden": "true",
-        "data-target-marker": ""
+        "data-target-marker": "",
+        "data-target-role": role
       });
       this.element.style.display = "none";
+      this.element.style.pointerEvents = "none";
+      this.setRole(role, false);
       this.element.activate = () => this.activate();
       this.element.getCollisionBounds = () => this.getCollisionBounds();
+    }
+
+    setRole(role, transition = true) {
+      const isCurrent = role === "current";
+      this.element.setAttribute("data-target-role", role);
+      this.element.setAttribute("r", isCurrent ? "6" : "5");
+      this.element.style.transition = transition
+        ? "fill 180ms ease, stroke 180ms ease, stroke-width 180ms ease, opacity 180ms ease, filter 180ms ease"
+        : "none";
+      this.element.style.fill = isCurrent ? "#dfff74" : "#FFC83D";
+      this.element.style.stroke = isCurrent ? "rgba(86, 213, 102, .82)" : "rgba(255, 200, 61, .16)";
+      this.element.style.strokeWidth = isCurrent ? "20px" : "16px";
+      this.element.style.opacity = isCurrent ? "1" : ".45";
+      this.element.style.filter = isCurrent
+        ? "drop-shadow(0 0 7px rgba(66, 211, 107, .24))"
+        : "drop-shadow(0 0 4px rgba(255, 200, 61, .12))";
+      this.element.classList.toggle("target-marker", isCurrent);
+      if (!isCurrent) this.element.classList.remove("target-marker--active");
     }
 
     activate() {
@@ -58,7 +78,9 @@
       this.startedAt = 0;
       this.isPlaying = false;
       this.showGuidePoint = Boolean(options.showGuidePoint);
-      this.point = this.createPoint();
+      this.currentIndex = -1;
+      this.point = this.createPoint("current");
+      this.nextPoint = this.createPoint("next");
       this.tick = this.tick.bind(this);
     }
 
@@ -69,12 +91,13 @@
         const valid = TargetEngine.validateNote(note, index);
         return Object.freeze({ ...valid, ...this.getPosition(valid.string, valid.fret) });
       }));
+      this.currentIndex = -1;
       this.renderPreview();
     }
 
     setGuidePointVisible(visible) {
       this.showGuidePoint = Boolean(visible);
-      if (!this.showGuidePoint) this.point.style.display = "none";
+      if (!this.showGuidePoint) this.hidePoints();
       else if (!this.isPlaying) this.renderPreview();
     }
 
@@ -89,7 +112,7 @@
       if (this.frame !== null) global.cancelAnimationFrame(this.frame);
       this.frame = null;
       this.isPlaying = false;
-      this.point.style.display = "none";
+      this.hidePoints();
     }
 
     tick(now) {
@@ -108,24 +131,57 @@
     }
 
     renderPreview() {
-      if (!this.sequence.length) return;
-      const first = this.sequence[0];
-      this.renderPoint(first);
+      if (!this.sequence.length) {
+        this.hidePoints();
+        return;
+      }
+      this.renderTargets(0, false);
     }
 
     renderPointAt(lessonTime) {
-      const note = this.sequence.find((candidate) =>
-        lessonTime >= candidate.time && lessonTime <= candidate.time + candidate.duration
-      );
-      if (note) this.renderPoint(note);
-      else this.point.style.display = "none";
+      let index = this.sequence.findIndex((candidate) => candidate.time > lessonTime) - 1;
+      if (index < 0) index = this.sequence.length - 1;
+      if (lessonTime < this.sequence[0].time) index = 0;
+      this.renderTargets(index, index !== this.currentIndex);
     }
 
-    renderPoint(note) {
-      if (!this.showGuidePoint) return;
-      this.point.setAttribute("cx", String(note.x));
-      this.point.setAttribute("cy", String(note.y));
+    renderTargets(index, promote) {
+      if (!this.showGuidePoint || !this.sequence[index]) {
+        this.hidePoints();
+        return;
+      }
+
+      if (promote && this.currentIndex >= 0 && index === this.currentIndex + 1) {
+        const previous = this.point;
+        this.point = this.nextPoint;
+        this.nextPoint = previous;
+        this.point.marker.setRole("current");
+        this.point.activate();
+      } else {
+        this.point.marker.setRole("current", false);
+        this.positionPoint(this.point, this.sequence[index]);
+      }
+
+      this.currentIndex = index;
       this.point.style.display = "";
+      const next = this.sequence[index + 1];
+      if (next) {
+        this.nextPoint.marker.setRole("next", false);
+        this.positionPoint(this.nextPoint, next);
+        this.nextPoint.style.display = "";
+      } else {
+        this.nextPoint.style.display = "none";
+      }
+    }
+
+    positionPoint(point, note) {
+      point.setAttribute("cx", String(note.x));
+      point.setAttribute("cy", String(note.y));
+    }
+
+    hidePoints() {
+      this.point.style.display = "none";
+      this.nextPoint.style.display = "none";
     }
 
     getPosition(stringNumber, fretNumber) {
@@ -157,11 +213,13 @@
       return { x, y: y1 + (((y2 - y1) * (x - x1)) / (x2 - x1)) };
     }
 
-    createPoint() {
+    createPoint(role) {
       const strings = [...this.svg.querySelectorAll("[data-string-index] line")];
       if (strings.length < 2) throw new Error("El mástil no expone la separación entre cuerdas.");
-      // The 12-unit core plus a 10-unit ring on each side forms the 32-unit marker.
-      const point = new TargetMarker(6).element;
+      // The core plus its stroke forms the requested 32-unit or 26-unit marker.
+      const marker = new TargetMarker(role === "current" ? 6 : 5, role);
+      const point = marker.element;
+      point.marker = marker;
       this.svg.append(point);
       return point;
     }
