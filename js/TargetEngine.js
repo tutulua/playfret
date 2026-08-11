@@ -23,12 +23,18 @@
   /** Visual target component. Its hit area is exposed for future hand collisions. */
   class TargetMarker {
     constructor(radius, role) {
-      this.element = svgNode("circle", {
-        r: radius,
+      this.element = svgNode("g", {
         "aria-hidden": "true",
-        "data-target-marker": "",
         "data-target-role": role
       });
+      this.circle = svgNode("circle", { r: radius, "data-target-marker": "" });
+      this.fingerHint = svgNode("text", {
+        class: "target-finger-hint",
+        "data-target-finger": "",
+        dy: ".35em",
+        "text-anchor": "middle"
+      });
+      this.element.append(this.circle, this.fingerHint);
       this.element.style.display = "none";
       this.element.style.pointerEvents = "none";
       this.setRole(role, false);
@@ -39,19 +45,26 @@
     setRole(role, transition = true) {
       const isCurrent = role === "current";
       this.element.setAttribute("data-target-role", role);
-      this.element.setAttribute("r", isCurrent ? "6" : "5");
-      this.element.style.transition = transition
+      this.circle.setAttribute("r", isCurrent ? "6" : "5");
+      this.circle.style.transition = transition
         ? "fill 180ms ease, stroke 180ms ease, stroke-width 180ms ease, opacity 180ms ease, filter 180ms ease"
         : "none";
-      this.element.style.fill = isCurrent ? "#dfff74" : "#FFC83D";
-      this.element.style.stroke = isCurrent ? "rgba(86, 213, 102, .82)" : "rgba(255, 200, 61, .16)";
-      this.element.style.strokeWidth = isCurrent ? "20px" : "16px";
-      this.element.style.opacity = isCurrent ? "1" : ".45";
-      this.element.style.filter = isCurrent
+      this.circle.style.fill = isCurrent ? "#dfff74" : "#FFC83D";
+      this.circle.style.stroke = isCurrent ? "rgba(86, 213, 102, .82)" : "rgba(255, 200, 61, .16)";
+      this.circle.style.strokeWidth = isCurrent ? "20px" : "16px";
+      this.circle.style.opacity = isCurrent ? "1" : ".45";
+      this.circle.style.filter = isCurrent
         ? "drop-shadow(0 0 7px rgba(66, 211, 107, .24))"
         : "drop-shadow(0 0 4px rgba(255, 200, 61, .12))";
-      this.element.classList.toggle("target-marker", isCurrent);
+      this.fingerHint.style.fontSize = isCurrent ? "14px" : "12px";
+      this.circle.classList.toggle("target-marker", isCurrent);
       if (!isCurrent) this.element.classList.remove("target-marker--active");
+    }
+
+    setFinger(finger) {
+      const hasFinger = Number.isInteger(finger) && finger >= 1 && finger <= 4;
+      this.fingerHint.textContent = hasFinger ? String(finger) : "";
+      this.fingerHint.style.display = hasFinger ? "" : "none";
     }
 
     activate() {
@@ -175,8 +188,8 @@
     }
 
     positionPoint(point, note) {
-      point.setAttribute("cx", String(note.x));
-      point.setAttribute("cy", String(note.y));
+      point.setAttribute("transform", `translate(${note.x} ${note.y})`);
+      point.marker.setFinger(note.finger);
     }
 
     hidePoints() {
@@ -237,7 +250,10 @@
       if (!Number.isFinite(note.duration) || note.duration < 0) {
         throw new RangeError(`La nota ${index} requiere una duración no negativa.`);
       }
-      return { string: note.string, fret: note.fret, time: note.time, duration: note.duration };
+      const finger = Number.isInteger(note.finger) && note.finger >= 1 && note.finger <= 4
+        ? note.finger
+        : undefined;
+      return { string: note.string, fret: note.fret, time: note.time, duration: note.duration, finger };
     }
   }
 
