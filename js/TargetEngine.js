@@ -3,8 +3,6 @@
   "use strict";
 
   const SVG_NS = "http://www.w3.org/2000/svg";
-  const ENTRY_DURATION_MS = 600;
-  const RELEASE_DURATION_MS = 180;
 
   function svgNode(name, attributes = {}) {
     const node = document.createElementNS(SVG_NS, name);
@@ -22,145 +20,6 @@
     return from + ((to - from) * progress);
   }
 
-  function ease(progress) {
-    const bounded = Math.max(0, Math.min(1, progress));
-    return bounded * bounded * (3 - (2 * bounded));
-  }
-
-  class HandEngine {
-    constructor(svg) {
-      this.svg = svg;
-      this.visible = true;
-      this.guide = null;
-      this.geometry = this.readGeometry();
-      this.createHand();
-    }
-
-    readGeometry() {
-      const viewBox = this.svg.viewBox.baseVal;
-      const strings = [...this.svg.querySelectorAll("[data-string-index] line")];
-      if (!viewBox.width || strings.length < 2) throw new Error("El mástil SVG no expone geometría suficiente.");
-
-      const stringYs = strings.map((line) => numberAttribute(line, "y1"));
-      const spacing = Math.abs(stringYs[1] - stringYs[0]);
-      const nut = this.svg.querySelector(".fretboard-master__nut rect");
-      const frets = [...this.svg.querySelectorAll("[data-fret]")];
-      const fretCenters = frets.map((fret) => numberAttribute(fret, "x") + (numberAttribute(fret, "width") / 2));
-      const nutCenter = numberAttribute(nut, "x") + (numberAttribute(nut, "width") / 2);
-      const firstCellWidth = fretCenters[0] - nutCenter;
-
-      return {
-        top: viewBox.y,
-        spacing,
-        handScale: Math.min(spacing, firstCellWidth) / 42
-      };
-    }
-
-    createHand() {
-      const group = svgNode("g", {
-        class: "guide-hand",
-        "aria-hidden": "true",
-        "pointer-events": "none"
-      });
-      const shadow = svgNode("g", { class: "guide-hand__shape" });
-
-      // All three anatomical parts are paths so the guide is never represented by an ellipse.
-      const palm = svgNode("path", {
-        class: "guide-hand__palm",
-        d: "M-16 -4 C-18 -17 -12 -27 0 -29 C12 -27 18 -17 16 -4 L13 18 C10 27 -10 27 -13 18 Z"
-      });
-      const index = svgNode("path", {
-        class: "guide-hand__index",
-        d: "M-7 -5 L-6 -38 C-6 -47 6 -47 7 -38 L7 2 C6 9 -6 9 -7 2 Z"
-      });
-      const thumb = svgNode("path", {
-        class: "guide-hand__thumb",
-        d: "M-12 1 C-22 -5 -28 -1 -26 6 C-23 13 -14 16 -7 13 L-3 8 Z"
-      });
-
-      shadow.append(palm, index, thumb);
-      group.append(shadow);
-      this.svg.append(group);
-      this.guide = group;
-      this.setVisible(this.visible);
-    }
-
-    setVisible(visible) {
-      this.visible = Boolean(visible);
-      if (this.guide) this.guide.style.display = this.visible ? "" : "none";
-    }
-
-    render(pose) {
-      if (!this.visible) return;
-      const scale = this.geometry.handScale;
-      this.guide.setAttribute(
-        "transform",
-        `translate(${pose.x} ${pose.y}) scale(${scale})`
-      );
-      this.guide.classList.toggle("is-pressing", pose.pressing);
-    }
-
-    entryPose(target, progress) {
-      const raisedY = target.y - this.geometry.spacing;
-      return {
-        x: target.x,
-        y: mix(this.geometry.top - (this.geometry.spacing * 2), raisedY, ease(progress)),
-        pressing: false
-      };
-    }
-
-    transitionPose(from, to, progress) {
-      const raisedFrom = from.y - this.geometry.spacing;
-      const raisedTo = to.y - this.geometry.spacing;
-      const phase = Math.max(0, Math.min(1, progress));
-
-      if (phase < 0.25) {
-        return { x: from.x, y: mix(from.y, raisedFrom, ease(phase / 0.25)), pressing: false };
-      }
-      if (phase < 0.75) {
-        const travel = ease((phase - 0.25) / 0.5);
-        return { x: mix(from.x, to.x, travel), y: mix(raisedFrom, raisedTo, travel), pressing: false };
-      }
-      return { x: to.x, y: mix(raisedTo, to.y, ease((phase - 0.75) / 0.25)), pressing: false };
-    }
-
-    calculatePose(targets, elapsed, leadIn) {
-      const first = targets[0];
-      if (elapsed < leadIn) return this.entryPose(first, elapsed / leadIn);
-
-      const lessonTime = elapsed - leadIn;
-      for (let index = 0; index < targets.length; index += 1) {
-        const current = targets[index];
-        const pressEnd = current.time + current.duration;
-        const next = targets[index + 1];
-        if (lessonTime >= current.time && lessonTime <= pressEnd) {
-          return { x: current.x, y: current.y, pressing: true };
-        }
-        if (next && lessonTime > pressEnd && lessonTime < next.time) {
-          return this.transitionPose(current, next, (lessonTime - pressEnd) / (next.time - pressEnd));
-        }
-        if (next && lessonTime < next.time && index === 0 && lessonTime < current.time) {
-          return this.transitionPose(current, next, 0);
-        }
-      }
-
-      const last = targets[targets.length - 1];
-      return { x: last.x, y: last.y - this.geometry.spacing, pressing: false };
-    }
-
-    poseAt(targets, elapsed) {
-      return this.calculatePose(targets, elapsed, ENTRY_DURATION_MS);
-    }
-
-    playbackDuration(targets) {
-      const last = targets[targets.length - 1];
-      return ENTRY_DURATION_MS + last.time + last.duration + RELEASE_DURATION_MS;
-    }
-
-    lessonTime(elapsed) {
-      return elapsed - ENTRY_DURATION_MS;
-    }
-  }
 
   class TargetEngine {
     constructor(fretboardContainer, options = {}) {
@@ -173,7 +32,8 @@
       this.frame = null;
       this.startedAt = 0;
       this.isPlaying = false;
-      this.hand = new HandEngine(this.svg);
+      if (!global.PlayFret?.HandEngine) throw new Error("Carga HandEngine antes de TargetEngine.");
+      this.hand = new global.PlayFret.HandEngine(this.svg);
       this.showGuidePoint = Boolean(options.showGuidePoint);
       this.point = this.createPoint();
       this.tick = this.tick.bind(this);
@@ -233,7 +93,7 @@
     renderPreview() {
       if (!this.sequence.length) return;
       const first = this.sequence[0];
-      this.hand.render({ x: first.x, y: first.y - this.hand.geometry.spacing, pressing: false });
+      this.hand.resetOffscreen();
       this.renderPoint(first);
     }
 
