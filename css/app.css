@@ -1,24 +1,85 @@
-:root { color-scheme: dark; --bg:#0c0d0f; --surface:#15171a; --surface-2:#1b1d20; --text:#f5f2eb; --muted:#8c9097; --accent:#d9ff43; --accent-soft:#b9dc38; --line:#292c30; font-family:"DM Sans",system-ui,sans-serif; }
-* { box-sizing:border-box; }
-html { background:#08090a; }
-body { margin:0; min-width:320px; min-height:100vh; background:radial-gradient(circle at 50% -10%,#24271f 0,transparent 31rem),var(--bg); color:var(--text); }
-button,a { -webkit-tap-highlight-color:transparent; }
-button { font:inherit; }
-.app-shell { width:100%; min-height:100vh; padding-bottom:105px; overflow:hidden; }
-.topbar { height:78px; display:flex; align-items:center; justify-content:space-between; padding:0 20px; border-bottom:1px solid rgba(255,255,255,.04); }
-.brand { display:flex; gap:10px; align-items:center; color:var(--text); text-decoration:none; font:800 21px/1 "Manrope",sans-serif; letter-spacing:-.8px; }
-.brand>span:last-child span { color:var(--accent); }
-.brand__mark { width:31px; height:31px; display:grid; place-items:center; border:1px solid #b9d640; border-radius:9px; background:#1d2115; }
-.brand__mark svg { width:24px; fill:none; stroke:var(--accent); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
-.profile { position:relative; width:40px; height:40px; border:1px solid #33363a; border-radius:50%; background:linear-gradient(145deg,#34383e,#1d2024); color:#dedfdc; font-size:11px; font-weight:700; cursor:pointer; }
-.profile i { position:absolute; right:0; bottom:1px; width:10px; height:10px; border-radius:50%; border:2px solid var(--bg); background:var(--accent); }
-main { width:min(100%,760px); margin:auto; padding:30px 18px 20px; }
-.welcome { position:relative; margin:0 2px 25px; }
-.eyebrow { margin:0 0 9px; color:var(--accent); font-size:10px; font-weight:700; letter-spacing:1.8px; }
-.welcome h1 { max-width:310px; margin:0; font:700 28px/1.15 "Manrope",sans-serif; letter-spacing:-1.1px; }
-.welcome h1 span { display:block; color:#9ca09f; }
-.streak { position:absolute; right:1px; bottom:3px; display:flex; align-items:center; gap:5px; padding:8px 10px 8px 8px; border:1px solid #2b2e30; border-radius:12px; background:#151719; color:#a6a9ad; font-size:10px; }
-.streak svg { width:21px; fill:#ff784a; }
-.streak .flame-core { fill:#ffd16c; }
-.streak strong { color:#f4f1ec; font-size:13px; }
-@media (min-width:700px) { .topbar{padding-inline:max(30px,calc((100vw - 800px)/2));}.app-shell{padding-bottom:120px} main{padding-top:42px}.welcome h1{max-width:none;font-size:34px}.welcome h1 span{display:inline}.streak{right:2px} }
+:root {
+  color-scheme: dark;
+  --bg: #0c0d0f;
+  --surface: #15171a;
+  --surface-2: #1b1d20;
+  --text: #f5f2eb;
+  --muted: #8c9097;
+  --accent: #d9ff43;
+  --accent-soft: #b9dc38;
+  --line: #292c30;
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body { min-width: 320px; min-height: 100%; }
+
+body {
+  margin: 0;
+  background: radial-gradient(circle at 50% -25%, #24271f 0, transparent 34rem), var(--bg);
+  color: var(--text);
+}
+
+button { font: inherit; -webkit-tap-highlight-color: transparent; }
+
+.practice-layout {
+  width: 100%;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: minmax(76px, 12vh) minmax(300px, 1fr) minmax(78px, 9vh) minmax(58px, 6vh);
+  overflow: hidden;
+}
+
+.lesson-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 14px clamp(18px, 4vw, 64px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(12, 13, 15, .72);
+}
+
+.lesson-heading__eyebrow {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+.lesson-heading h1 {
+  margin: 3px 0 1px;
+  font: 700 clamp(21px, 2.2vw, 32px)/1.1 "Manrope", sans-serif;
+  letter-spacing: -.8px;
+}
+
+.lesson-heading p { margin: 0; color: var(--muted); font-size: 12px; }
+
+.lesson-stats { display: flex; gap: clamp(28px, 5vw, 80px); margin: 0; }
+.lesson-stats div { min-width: 72px; }
+.lesson-stats dt { margin-bottom: 3px; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .8px; text-transform: uppercase; }
+.lesson-stats dd { margin: 0; font: 700 clamp(19px, 2vw, 27px)/1 "Manrope", sans-serif; white-space: nowrap; }
+.lesson-stats small { color: var(--muted); font-size: 10px; letter-spacing: .4px; }
+.lesson-stats .lesson-progress { color: var(--accent); }
+
+.fretboard-stage {
+  min-height: 0;
+  display: grid;
+  align-items: center;
+  padding-block: clamp(12px, 3vh, 34px);
+}
+
+@media (max-width: 600px) {
+  .practice-layout { grid-template-rows: minmax(86px, 13vh) minmax(300px, 1fr) minmax(82px, 10vh) minmax(62px, 7vh); }
+  .lesson-header { gap: 14px; padding-inline: 16px; }
+  .lesson-heading p, .lesson-heading__eyebrow, .lesson-stats dt { font-size: 9px; }
+  .lesson-stats { gap: 13px; }
+  .lesson-stats div { min-width: 53px; }
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+  .practice-layout { grid-template-rows: 72px minmax(220px, 1fr) 72px 50px; overflow: auto; }
+  .fretboard-stage { padding-block: 8px; }
+}
