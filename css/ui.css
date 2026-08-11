@@ -2,7 +2,7 @@
   position: relative;
   border-top: 1px solid var(--line);
   background: var(--surface);
-  min-height: 53px;
+  height: 90px;
 }
 
 .player-panel {
@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   gap: clamp(34px, 8vw, 120px);
-  min-height: 53px;
+  height: 90px;
   padding: 4px clamp(18px, 4vw, 64px);
 }
 
