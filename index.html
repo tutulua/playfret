@@ -40,32 +40,34 @@
       <div class="fretboard-wrap" data-fretboard aria-label="Diagrama del mástil de guitarra"></div>
     </section>
 
-    <section class="player-panel" aria-label="Controles de reproducción">
-      <div class="transport-controls">
-        <button class="skip-button" type="button" aria-label="Paso anterior">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M19 6l-9 6 9 6V6Z"/></svg>
-        </button>
-        <button class="play-button" type="button" aria-label="Comenzar lección">
-          <svg viewBox="0 0 28 28" aria-hidden="true"><path d="m9 5 14 9-14 9V5Z"/></svg>
-          <span>PLAY</span>
-        </button>
-        <button class="skip-button" type="button" aria-label="Paso siguiente">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5v14M5 6l9 6-9 6V6Z"/></svg>
-        </button>
-      </div>
-      <div class="playback-status">
-        <span><small>Velocidad</small><strong>1.0×</strong></span>
-        <span><small>Progreso</small><strong>72%</strong></span>
-      </div>
-    </section>
+    <footer class="control-dock">
+      <section class="player-panel" aria-label="Controles de reproducción">
+        <div class="transport-controls">
+          <button class="skip-button" type="button" aria-label="Paso anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M19 6l-9 6 9 6V6Z"/></svg>
+          </button>
+          <button class="play-button" type="button" aria-label="Comenzar lección">
+            <svg viewBox="0 0 28 28" aria-hidden="true"><path d="m9 5 14 9-14 9V5Z"/></svg>
+            <span>PLAY</span>
+          </button>
+          <button class="skip-button" type="button" aria-label="Paso siguiente">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5v14M5 6l9 6-9 6V6Z"/></svg>
+          </button>
+        </div>
+        <div class="playback-status">
+          <span><small>Velocidad</small><strong>1.0×</strong></span>
+          <span><small>Progreso</small><strong>72%</strong></span>
+        </div>
+      </section>
 
-    <fieldset class="guide-options">
-      <legend>Ayudas visuales</legend>
-      <label><input type="checkbox" checked><span aria-hidden="true"></span>Mano</label>
-      <label><input type="checkbox" data-show-guide-point><span aria-hidden="true"></span>Punto</label>
-      <label><input type="checkbox" checked><span aria-hidden="true"></span>Trastes</label>
-      <label><input type="checkbox" checked><span aria-hidden="true"></span>Notas</label>
-    </fieldset>
+      <fieldset class="guide-options">
+        <legend>Ayudas visuales</legend>
+        <label><input type="checkbox" checked><span aria-hidden="true"></span>Mano</label>
+        <label><input type="checkbox" data-show-guide-point><span aria-hidden="true"></span>Punto</label>
+        <label><input type="checkbox" checked><span aria-hidden="true"></span>Trastes</label>
+        <label><input type="checkbox" checked><span aria-hidden="true"></span>Notas</label>
+      </fieldset>
+    </footer>
   </main>
 </body>
 </html>
