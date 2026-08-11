@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="fretboard-master" viewBox="0 0 1200 330" preserveAspectRatio="none" role="img" aria-labelledby="fretboard-master-title fretboard-master-description">
+  <title id="fretboard-master-title">Mástil de guitarra de seis cuerdas</title>
+  <desc id="fretboard-master-description">Diapasón de madera con doce trastes colocados según temperamento igual, cejuela de hueso, inlays en relieve y seis cuerdas metálicas de distinto grosor.</desc>
+  <defs>
+    <linearGradient id="master-background" x2="0" y2="1"><stop stop-color="#17191b"/><stop offset="1" stop-color="#090a0b"/></linearGradient>
+    <linearGradient id="master-wood" x2="0" y2="1">
+      <stop stop-color="#160b08"/><stop offset=".055" stop-color="#352016"/><stop offset=".14" stop-color="#43251a"/>
+      <stop offset=".5" stop-color="#2b1711"/><stop offset=".86" stop-color="#392017"/><stop offset=".945" stop-color="#2b1812"/><stop offset="1" stop-color="#140a08"/>
+    </linearGradient>
+    <linearGradient id="master-fret" x2="1"><stop stop-color="#5f5e5a"/><stop offset=".28" stop-color="#aaa79f"/><stop offset=".56" stop-color="#d0cdc4"/><stop offset=".78" stop-color="#8b8983"/><stop offset="1" stop-color="#55544f"/></linearGradient>
+    <linearGradient id="master-nut" x2="1"><stop stop-color="#9d927f"/><stop offset=".18" stop-color="#ded4c1"/><stop offset=".42" stop-color="#fff8e8"/><stop offset=".7" stop-color="#d8cdb8"/><stop offset="1" stop-color="#887d6a"/></linearGradient>
+    <linearGradient id="master-inlay" x2="0" y2="1"><stop stop-color="#fffdf4"/><stop offset=".38" stop-color="#dedacf"/><stop offset=".72" stop-color="#b2afa7"/><stop offset="1" stop-color="#77746e"/></linearGradient>
+    <linearGradient id="master-string-1" x2="0" y2="1"><stop stop-color="#8c8a84"/><stop offset=".28" stop-color="#f5f2e9"/><stop offset=".5" stop-color="#b8b5ae"/><stop offset=".76" stop-color="#ece9e0"/><stop offset="1" stop-color="#77756f"/></linearGradient>
+    <linearGradient id="master-string-2" x2="0" y2="1"><stop stop-color="#817f79"/><stop offset=".3" stop-color="#eeeae1"/><stop offset=".55" stop-color="#aaa8a1"/><stop offset=".8" stop-color="#dedbd2"/><stop offset="1" stop-color="#716f6a"/></linearGradient>
+    <linearGradient id="master-string-3" x2="0" y2="1"><stop stop-color="#74726d"/><stop offset=".28" stop-color="#e4e1d8"/><stop offset=".52" stop-color="#9c9992"/><stop offset=".78" stop-color="#d5d2ca"/><stop offset="1" stop-color="#65635f"/></linearGradient>
+    <linearGradient id="master-string-4" x2="0" y2="1"><stop stop-color="#696762"/><stop offset=".26" stop-color="#d9d6ce"/><stop offset=".5" stop-color="#908e87"/><stop offset=".77" stop-color="#cbc8c0"/><stop offset="1" stop-color="#5b5955"/></linearGradient>
+    <linearGradient id="master-string-5" x2="0" y2="1"><stop stop-color="#5f5d59"/><stop offset=".24" stop-color="#cfccc4"/><stop offset=".48" stop-color="#85837d"/><stop offset=".75" stop-color="#bebbb4"/><stop offset="1" stop-color="#53514d"/></linearGradient>
+    <linearGradient id="master-string-6" x2="0" y2="1"><stop stop-color="#55534f"/><stop offset=".22" stop-color="#c5c2ba"/><stop offset=".46" stop-color="#7a7872"/><stop offset=".73" stop-color="#b4b1aa"/><stop offset="1" stop-color="#484743"/></linearGradient>
+    <filter id="master-nut-shadow" x="-100%" y="-10%" width="300%" height="125%"><feDropShadow dx="3" dy="1" stdDeviation="1.8" flood-opacity=".7"/></filter>
+    <filter id="master-inlay-shadow" x="-40%" y="-50%" width="180%" height="210%"><feDropShadow dy="1.8" stdDeviation="1.2" flood-color="#080403" flood-opacity=".78"/></filter>
+    <filter id="master-string-shadow" x="-2%" y="-100%" width="104%" height="300%"><feDropShadow dy="1.1" stdDeviation=".65" flood-opacity=".75"/></filter>
+  </defs>
+  <g class="fretboard-master__background"><path fill="url(#master-background)" d="M0 0h1200v330H0z"/></g>
+  <g class="fretboard-master__neck">
+    <path fill="#160c09" d="M0 18l1192 6q8 0 8 8v236q0 8-8 8L0 282z"/>
+    <path fill="url(#master-wood)" d="M0 24l1192 6q8 0 8 8v224q0 8-8 8L0 276z"/>
+    <g class="fretboard-master__grain" fill="none" stroke="#d79667" stroke-width=".7" opacity=".04">
+      <path d="M18 71c268-9 492 9 754-3s278 4 410-3M8 97c204 8 413-8 623 4s335-6 559 3M24 125c246 8 486-13 712-1s279-5 440 4M10 173c205-13 420 8 640-4s360 7 538-3M12 215c216 14 450-9 676 3s316-3 497 8M20 244c240-10 478 7 698-4s292 6 464-1"/>
+    </g>
+  </g>
+  <g class="fretboard-master__nut" filter="url(#master-nut-shadow)">
+    <rect x="58" y="24.31" width="8" height="251.38" rx="3" fill="url(#master-nut)" stroke="#8f836f" stroke-width=".7"/>
+    <path d="M60.1 28v244" stroke="#fffbed" stroke-width="1" opacity=".7"/>
+  </g>
+  <g class="fretboard-master__frets" fill="url(#master-fret)">
+    <path data-fret="1" d="M167.45 24.84h2.6v250.31h-2.6z"/><path data-fret="2" d="M268.21 25.35h2.6v249.3h-2.6z"/><path data-fret="3" d="M363.32 25.82h2.6v248.35h-2.6z"/>
+    <path data-fret="4" d="M453.08 26.27h2.6v247.46h-2.6z"/><path data-fret="5" d="M537.81 26.70h2.6v246.61h-2.6z"/><path data-fret="6" d="M617.78 27.10h2.6v245.80h-2.6z"/>
+    <path data-fret="7" d="M693.27 27.47h2.6v245.05h-2.6z"/><path data-fret="8" d="M764.52 27.83h2.6v244.34h-2.6z"/><path data-fret="9" d="M831.76 28.17h2.6v243.67h-2.6z"/>
+    <path data-fret="10" d="M895.24 28.48h2.6v243.03h-2.6z"/><path data-fret="11" d="M955.15 28.78h2.6v242.43h-2.6z"/><path data-fret="12" d="M1011.7 29.07h2.6v241.87h-2.6z"/>
+  </g>
+  <g class="fretboard-master__inlays" fill="url(#master-inlay)" stroke="#eeeade" stroke-width=".55" filter="url(#master-inlay-shadow)">
+    <g data-inlay-fret="3"><ellipse cx="317.06" cy="150" rx="7.4" ry="5.3"/><path d="M312.5 148.1q4.6-3 9.1 0" fill="none" stroke="#fff" opacity=".72"/></g>
+    <g data-inlay-fret="5"><ellipse cx="496.75" cy="150" rx="7.4" ry="5.3"/><path d="M492.2 148.1q4.6-3 9.1 0" fill="none" stroke="#fff" opacity=".72"/></g>
+    <g data-inlay-fret="7"><ellipse cx="656.83" cy="150" rx="7.4" ry="5.3"/><path d="M652.3 148.1q4.6-3 9.1 0" fill="none" stroke="#fff" opacity=".72"/></g>
+    <g data-inlay-fret="9"><ellipse cx="799.44" cy="150" rx="7.4" ry="5.3"/><path d="M794.9 148.1q4.6-3 9.1 0" fill="none" stroke="#fff" opacity=".72"/></g>
+    <g data-inlay-fret="12"><ellipse cx="984.73" cy="126.5" rx="7.4" ry="5.3"/><ellipse cx="984.73" cy="173.5" rx="7.4" ry="5.3"/><path d="M980.2 124.6q4.6-3 9.1 0m-9.1 47q4.6-3 9.1 0" fill="none" stroke="#fff" opacity=".72"/></g>
+  </g>
+  <g class="fretboard-master__strings" filter="url(#master-string-shadow)" fill="none" stroke-linecap="round">
+    <g id="String1" class="fretboard-master__string fretboard-master__string--1" data-component="String" data-string="high-e" data-string-index="0"><path d="M0 60l1200 6" stroke="url(#master-string-1)" stroke-width=".7"/></g>
+    <g id="String2" class="fretboard-master__string fretboard-master__string--2" data-component="String" data-string="b" data-string-index="1"><path d="M0 96l1200 4.2" stroke="url(#master-string-2)" stroke-width="1.25"/></g>
+    <g id="String3" class="fretboard-master__string fretboard-master__string--3" data-component="String" data-string="g" data-string-index="2"><path d="M0 132l1200 2.4" stroke="url(#master-string-3)" stroke-width="2.15"/></g>
+    <g id="String4" class="fretboard-master__string fretboard-master__string--4" data-component="String" data-string="d" data-string-index="3"><path d="M0 168l1200 .6" stroke="url(#master-string-4)" stroke-width="3.7"/></g>
+    <g id="String5" class="fretboard-master__string fretboard-master__string--5" data-component="String" data-string="a" data-string-index="4"><path d="M0 204l1200-1.2" stroke="url(#master-string-5)" stroke-width="4.7"/></g>
+    <g id="String6" class="fretboard-master__string fretboard-master__string--6" data-component="String" data-string="low-e" data-string-index="5"><path d="M0 240l1200-3" stroke="url(#master-string-6)" stroke-width="5.8"/></g>
+  </g>
+  <g class="fretboard-master__fret-numbers" fill="#92969c" font-family="DM Sans,sans-serif" font-size="18" font-weight="600" text-anchor="middle">
+    <text x="115.38" y="319">1</text><text x="219.13" y="319">2</text><text x="317.06" y="319">3</text><text x="409.50" y="319">4</text><text x="496.75" y="319">5</text><text x="579.10" y="319">6</text>
+    <text x="656.83" y="319">7</text><text x="730.19" y="319">8</text><text x="799.44" y="319">9</text><text x="864.80" y="319">10</text><text x="926.49" y="319">11</text><text x="984.73" y="319">12</text>
+  </g>
+</svg>
