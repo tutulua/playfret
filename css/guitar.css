@@ -65,43 +65,14 @@
   filter: drop-shadow(0 8px 8px rgba(0, 0, 0, .68));
 }
 
-.hand-engine__wrist,
-.hand-engine__palm,
-.hand-engine__finger > path:first-child,
-.hand-engine__thumb > path:first-child {
-  fill: url(#hand-skin);
-  stroke: #794735;
-  stroke-width: 1.2;
-  stroke-linejoin: round;
-  vector-effect: non-scaling-stroke;
+.hand-engine__reference {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transition: filter 90ms linear;
 }
 
-.hand-engine__palm { opacity: .74; }
-.hand-engine__finger > path:first-child { fill: url(#hand-finger); }
-.hand-engine__finger,
-.hand-engine__thumb { transform-box: fill-box; }
-
-.hand-engine__crease,
-.hand-engine__joint {
-  fill: none;
-  stroke: #955b46;
-  stroke-width: 1;
-  stroke-linecap: round;
-  opacity: .5;
-  vector-effect: non-scaling-stroke;
-}
-
-.hand-engine__nail {
-  fill: #f8d9c5;
-  stroke: #a96d55;
-  stroke-width: .8;
-  opacity: .82;
-  vector-effect: non-scaling-stroke;
-}
-
-.hand-engine__finger.is-pressing > path:first-child {
-  fill: #efb18c;
-  filter: drop-shadow(0 -2px 2px rgba(217, 255, 67, .42));
+.hand-engine__reference.is-pressing {
+  filter: drop-shadow(0 -2px 2px rgba(217, 255, 67, .28));
 }
 
 .guide-point {
