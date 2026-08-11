@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0c0d0f">
   <meta name="description" content="PlayFret: aprende guitarra, acorde a acorde.">
-  <title>PlayFret — Aprende guitarra</title>
+  <title>Smoke on the Water — PlayFret</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
@@ -17,70 +17,55 @@
   <script src="js/app.js" defer></script>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <a class="brand" href="#" aria-label="PlayFret, inicio">
-        <span class="brand__mark" aria-hidden="true">
-          <svg viewBox="0 0 36 36" role="img"><path d="M11 6.5v23M11 10c10-5.5 17 1.5 17 8s-7 13.5-17 8"/><path d="M11 17h10M11 22h9"/></svg>
-        </span>
-        <span>Play<span>Fret</span></span>
-      </a>
-      <button class="profile" type="button" aria-label="Abrir perfil">
-        <span>JD</span>
-        <i aria-hidden="true"></i>
-      </button>
+  <main class="practice-layout">
+    <header class="lesson-header" aria-labelledby="lesson-title">
+      <div class="lesson-heading">
+        <span class="lesson-heading__eyebrow">LECCIÓN 04</span>
+        <h1 id="lesson-title">Smoke on the Water</h1>
+        <p>Deep Purple · Riff principal</p>
+      </div>
+      <dl class="lesson-stats" aria-label="Detalles de la lección">
+        <div>
+          <dt>Tempo</dt>
+          <dd>72 <small>BPM</small></dd>
+        </div>
+        <div>
+          <dt>Progreso</dt>
+          <dd class="lesson-progress">72<small>%</small></dd>
+        </div>
+      </dl>
     </header>
 
-    <main>
-      <section class="welcome" aria-labelledby="welcome-title">
-        <p class="eyebrow">TU PRÁCTICA DE HOY</p>
-        <h1 id="welcome-title">Sigue tocando, <span>cada nota cuenta.</span></h1>
-        <div class="streak" aria-label="Racha actual: 12 días">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.8 2.8c.5 3.2-1.1 4.6-2.4 6.1-1.2-1.2-1.5-2.6-1-4.1-3.2 2-5.1 5.1-4.8 8.3.3 4.4 3.7 7.8 8.1 7.5 3.9-.2 6.8-3.5 6.6-7.4-.2-3.5-2.8-7.8-6.5-10.4Z"/><path class="flame-core" d="M13 11.5c.2 1.6-.8 2.5-1.5 3.3-.6.7-.6 2 .1 2.7 1 1 2.8.8 3.5-.5 1-1.8-.1-4.2-2.1-5.5Z"/></svg>
-          <span><strong>12</strong> días</span>
-        </div>
-      </section>
+    <section class="fretboard-stage" aria-label="Área de práctica">
+      <div class="fretboard-wrap" data-fretboard aria-label="Diagrama del mástil de guitarra"></div>
+    </section>
 
-      <article class="lesson-card" aria-labelledby="lesson-title">
-        <header class="lesson-card__header">
-          <div>
-            <span class="lesson-number">LECCIÓN 04</span>
-            <h2 id="lesson-title">Smoke on the Water</h2>
-            <p>Deep Purple · Riff principal</p>
-          </div>
-          <div class="progress-ring" style="--progress: 72" role="img" aria-label="Progreso: 72 por ciento">
-            <span>72<small>%</small></span>
-          </div>
-        </header>
+    <section class="player-panel" aria-label="Controles de reproducción">
+      <div class="transport-controls">
+        <button class="skip-button" type="button" aria-label="Paso anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M19 6l-9 6 9 6V6Z"/></svg>
+        </button>
+        <button class="play-button" type="button" aria-label="Comenzar lección">
+          <svg viewBox="0 0 28 28" aria-hidden="true"><path d="m9 5 14 9-14 9V5Z"/></svg>
+          <span>PLAY</span>
+        </button>
+        <button class="skip-button" type="button" aria-label="Paso siguiente">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5v14M5 6l9 6-9 6V6Z"/></svg>
+        </button>
+      </div>
+      <div class="playback-status">
+        <span><small>Velocidad</small><strong>1.0×</strong></span>
+        <span><small>Progreso</small><strong>72%</strong></span>
+      </div>
+    </section>
 
-        <div class="lesson-meta" aria-label="Detalles de la lección">
-          <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9"/></svg>8 min</span>
-          <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>Principiante</span>
-          <span class="tone"><i></i>Distorsión</span>
-        </div>
-
-        <section class="fretboard-wrap" data-fretboard aria-label="Diagrama del mástil de guitarra"></section>
-
-        <fieldset class="guide-options">
-          <legend>Ayudas visuales</legend>
-          <label><input type="checkbox" data-show-guide-point><span aria-hidden="true"></span>Mostrar punto verde</label>
-        </fieldset>
-
-        <footer class="player">
-          <button class="skip-button" type="button" aria-label="Paso anterior"><svg viewBox="0 0 24 24"><path d="M7 5v14M19 6l-9 6 9 6V6Z"/></svg></button>
-          <button class="play-button" type="button" aria-label="Comenzar lección"><svg viewBox="0 0 28 28"><path d="m9 5 14 9-14 9V5Z"/></svg></button>
-          <button class="skip-button" type="button" aria-label="Paso siguiente"><svg viewBox="0 0 24 24"><path d="M17 5v14M5 6l9 6-9 6V6Z"/></svg></button>
-        </footer>
-      </article>
-    </main>
-
-    <nav class="bottom-nav" aria-label="Navegación principal">
-      <a class="is-active" href="#" aria-current="page"><svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10H6a3 3 0 0 1-3-3v-7Z"/><path d="M9 20v-6h6v6"/></svg><span>Inicio</span></a>
-      <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4V8Z"/></svg><span>Aprender</span></a>
-      <a class="nav-practice" href="#"><span class="nav-practice__icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l10-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="16" cy="16" r="3"/></svg></span><span>Práctica</span></a>
-      <a href="#"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><span>Canciones</span></a>
-      <a href="#"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c.5-5 3-7 8-7s7.5 2 8 7"/></svg><span>Perfil</span></a>
-    </nav>
-  </div>
+    <fieldset class="guide-options">
+      <legend>Ayudas visuales</legend>
+      <label><input type="checkbox" checked><span aria-hidden="true"></span>Mano</label>
+      <label><input type="checkbox" data-show-guide-point><span aria-hidden="true"></span>Punto</label>
+      <label><input type="checkbox" checked><span aria-hidden="true"></span>Trastes</label>
+      <label><input type="checkbox" checked><span aria-hidden="true"></span>Notas</label>
+    </fieldset>
+  </main>
 </body>
 </html>
