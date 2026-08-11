@@ -61,6 +61,31 @@
   transform-origin: center;
 }
 
+.guide-hand {
+  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, .55));
+  transform-box: view-box;
+}
+
+.guide-hand__shape {
+  fill: #f1b58c;
+  stroke: #713f2e;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.guide-hand__index { fill: #ffc39a; }
+.guide-hand__thumb { fill: #eaa47c; }
+.guide-hand.is-pressing .guide-hand__index { fill: #d9ff43; }
+
+.guide-point {
+  fill: #42d36b;
+  stroke: #fff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 5px rgba(66, 211, 107, .7));
+  pointer-events: none;
+}
+
 @media (min-width: 520px) {
   .fretboard-master { height: 240px; }
 }
