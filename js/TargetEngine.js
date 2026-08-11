@@ -93,7 +93,7 @@
     renderPreview() {
       if (!this.sequence.length) return;
       const first = this.sequence[0];
-      this.hand.resetOffscreen();
+      this.hand.render(this.hand.poseAt(this.sequence));
       this.renderPoint(first);
     }
 
