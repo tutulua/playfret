@@ -30,13 +30,16 @@
       const lesson = new global.PlayFret.LessonEngine();
       await lesson.load(LESSON_URL);
 
+      const fingerAssignments = new global.PlayFret.FingerAssignmentEngine().assignSequence(
+        lesson.getEvents().map(({ string, fret, timeMs, durationMs }) => ({
+          string,
+          fret,
+          time: timeMs,
+          duration: durationMs
+        }))
+      );
       const target = new global.PlayFret.TargetEngine(fretboard);
-      target.setSequence(lesson.getEvents().map(({ string, fret, timeMs, durationMs }) => ({
-        string,
-        fret,
-        time: timeMs,
-        duration: durationMs
-      })));
+      target.setSequence(fingerAssignments);
 
       const pointToggle = document.querySelector("[data-show-guide-point]");
       pointToggle?.addEventListener("change", () => target.setGuidePointVisible(pointToggle.checked));
