@@ -1,7 +1,8 @@
 .fretboard-wrap {
   position: relative;
-  width: 95%;
-  height: auto;
+  flex: 0 0 auto;
+  width: auto;
+  height: 75%;
   aspect-ratio: 1200 / 330;
   min-height: 0;
   margin-inline: auto;
@@ -24,6 +25,3 @@
 .fretboard-master__string { fill: none; stroke: url(#master-string); stroke-linecap: round; filter: url(#master-string-shadow); }
 .fretboard-master__string line { transform-box: fill-box; transform-origin: center; }
 .guide-point { fill: #42d36b; stroke: #fff; stroke-width: 1.5; filter: drop-shadow(0 0 5px rgba(66, 211, 107, .7)); pointer-events: none; }
-
-@media (max-width: 600px) { .fretboard-wrap { width: 95%; } }
-@media (max-height: 620px) and (orientation: landscape) { .fretboard-wrap { width: 95%; min-height: 0; } }

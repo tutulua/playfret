@@ -16,7 +16,10 @@
 html,
 body { min-width: 320px; min-height: 100%; }
 
+html { height: 100%; }
+
 body {
+  min-height: 100svh;
   margin: 0;
   background: radial-gradient(circle at 50% -25%, #24271f 0, transparent 34rem), var(--bg);
   color: var(--text);
@@ -26,9 +29,9 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
 
 .practice-layout {
   width: 100%;
-  min-height: 100svh;
+  height: 100svh;
   display: grid;
-  grid-template-rows: minmax(38px, 3.6vh) minmax(260px, 1fr) auto;
+  grid-template-rows: 60px minmax(0, 1fr) 90px;
   overflow: hidden;
 }
 
@@ -66,13 +69,16 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
 
 .fretboard-stage {
   min-height: 0;
-  display: grid;
-  align-items: start;
-  padding-block: clamp(6px, 1.2vh, 12px);
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
 
+.fretboard-stage::-webkit-scrollbar { display: none; }
+
 @media (max-width: 600px) {
-  .practice-layout { grid-template-rows: minmax(48px, auto) minmax(230px, 1fr) auto; overflow: auto; }
   .lesson-header { gap: 14px; padding-inline: 16px; }
   .lesson-heading p, .lesson-heading__eyebrow, .lesson-stats dt { font-size: 9px; }
   .lesson-stats { gap: 13px; }
@@ -80,6 +86,5 @@ button { font: inherit; -webkit-tap-highlight-color: transparent; }
 }
 
 @media (max-height: 620px) and (orientation: landscape) {
-  .practice-layout { grid-template-rows: 48px minmax(190px, 1fr) auto; overflow: auto; }
-  .fretboard-stage { padding-block: 8px; }
+  .lesson-header { padding-block: 2px; }
 }
