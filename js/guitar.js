@@ -6,7 +6,13 @@
   const VIEWBOX = { width: 1200, height: 330 };
   const NECK = { left: 24, right: 30, bottomLeft: 276, bottomRight: 270 };
   const NUT_X = 62;
-  const FRET_X = [166, 265, 359, 448, 533, 613, 689, 761, 829, 894, 955, 1013];
+  // A 1902-unit scale places the octave at x=1013. Every fret is derived
+  // from the equal-temperament rule rather than adjusted by eye.
+  const SCALE_LENGTH = 1902;
+  const FRET_COUNT = 12;
+  const FRET_X = Array.from({ length: FRET_COUNT }, (_, index) =>
+    NUT_X + (SCALE_LENGTH * (1 - (2 ** (-(index + 1) / 12))))
+  );
   const INLAY_FRETS = [3, 5, 7, 9, 12];
   const STRINGS = [
     { name: "low-e", label: "E", gauge: 5.2, color: "#97958f" },
@@ -70,7 +76,23 @@
       svgElement("stop", { offset: 1, "stop-color": "#5f5e5a" })
     );
 
-    definitions.append(background, wood, metal);
+    const nut = svgElement("linearGradient", { id: "master-nut", x1: 0, y1: 0, x2: 1, y2: 0 });
+    nut.append(
+      svgElement("stop", { "stop-color": "#a99d88" }),
+      svgElement("stop", { offset: 0.25, "stop-color": "#f3ead8" }),
+      svgElement("stop", { offset: 0.7, "stop-color": "#d8cdb8" }),
+      svgElement("stop", { offset: 1, "stop-color": "#8f836f" })
+    );
+
+    const fretHighlight = svgElement("linearGradient", { id: "master-fret-highlight", x1: 0, y1: 0, x2: 1, y2: 0 });
+    fretHighlight.append(
+      svgElement("stop", { "stop-color": "#fff", "stop-opacity": 0 }),
+      svgElement("stop", { offset: 0.46, "stop-color": "#fff", "stop-opacity": 0.85 }),
+      svgElement("stop", { offset: 0.72, "stop-color": "#fff", "stop-opacity": 0.12 }),
+      svgElement("stop", { offset: 1, "stop-color": "#fff", "stop-opacity": 0 })
+    );
+
+    definitions.append(background, wood, metal, nut, fretHighlight);
     return definitions;
   }
 
@@ -95,29 +117,22 @@
         d: `M0 ${NECK.left} L1192 ${NECK.right} Q1200 ${NECK.right} 1200 ${NECK.right + 8} L1200 ${NECK.bottomRight - 8} Q1200 ${NECK.bottomRight} 1192 ${NECK.bottomRight} L0 ${NECK.bottomLeft} Z`,
         fill: "url(#master-wood)"
       }),
-      svgElement("path", {
-        d: "M18 71 C286 62 510 80 772 68 S1050 72 1182 65",
-        fill: "none",
-        stroke: "#704431",
-        "stroke-width": 1.2,
-        opacity: 0.22
-      }),
-      svgElement("path", {
-        d: "M12 215 C228 229 462 206 688 218 S1004 215 1185 226",
-        fill: "none",
-        stroke: "#160d0a",
-        "stroke-width": 1.4,
-        opacity: 0.28
-      }),
-      svgElement("path", {
-        d: "M24 118 C270 126 510 108 736 121 S1015 116 1176 125",
-        fill: "none",
-        stroke: "#623827",
-        "stroke-width": 0.8,
-        opacity: 0.18
-      })
+      createGrain()
     );
     return group;
+  }
+
+  function createGrain() {
+    const grain = layer("Grain");
+    [
+      "M18 71 C286 62 510 80 772 68 S1050 72 1182 65",
+      "M8 97 C212 105 421 89 631 101 S966 95 1190 104",
+      "M24 125 C270 133 510 112 736 124 S1015 119 1176 128",
+      "M10 173 C215 160 430 181 650 169 S1010 176 1188 166",
+      "M12 215 C228 229 462 206 688 218 S1004 215 1185 226",
+      "M20 244 C260 234 498 251 718 240 S1010 246 1182 239"
+    ].forEach((d) => grain.append(svgElement("path", { d })));
+    return grain;
   }
 
   function createNut() {
@@ -126,23 +141,23 @@
     const bottom = neckBottomAt(NUT_X);
     group.append(
       svgElement("rect", {
-        x: NUT_X - 5,
+        x: NUT_X - 3,
         y: top,
-        width: 10,
+        width: 6,
         height: bottom - top,
-        rx: 2,
-        fill: "#ddd2bc",
-        stroke: "#a99d88",
-        "stroke-width": 0.8
+        rx: 1.5,
+        fill: "url(#master-nut)",
+        stroke: "#8f836f",
+        "stroke-width": 0.65
       }),
       svgElement("line", {
-        x1: NUT_X - 2.5,
+        x1: NUT_X - 1.4,
         y1: top + 3,
-        x2: NUT_X - 2.5,
+        x2: NUT_X - 1.4,
         y2: bottom - 3,
         stroke: "#fff8e6",
-        "stroke-width": 0.8,
-        opacity: 0.65
+        "stroke-width": 0.65,
+        opacity: 0.72
       })
     );
     return group;
@@ -161,6 +176,23 @@
         rx: 1.65,
         fill: "url(#master-fret)",
         "data-fret": index + 1
+      }), svgElement("rect", {
+        x: x - 0.85,
+        y: top + 1,
+        width: 1.15,
+        height: bottom - top - 2,
+        rx: 0.58,
+        fill: "url(#master-fret-highlight)",
+        "pointer-events": "none"
+      }), svgElement("line", {
+        x1: x + 1.15,
+        y1: top + 2,
+        x2: x + 1.15,
+        y2: bottom - 2,
+        stroke: "#252421",
+        "stroke-width": 0.65,
+        opacity: 0.7,
+        "pointer-events": "none"
       }));
     });
     return group;
