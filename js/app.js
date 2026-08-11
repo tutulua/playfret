@@ -31,11 +31,17 @@
       await lesson.load(LESSON_URL);
 
       const target = new global.PlayFret.TargetEngine(fretboard);
-      target.setSequence(lesson.getEvents().map(({ string, fret, durationMs }) => ({
+      target.setSequence(lesson.getEvents().map(({ string, fret, timeMs, durationMs }) => ({
         string,
         fret,
+        time: timeMs,
         duration: durationMs
       })));
+
+      const handToggle = document.querySelector("[data-show-guide-hand]");
+      const pointToggle = document.querySelector("[data-show-guide-point]");
+      handToggle?.addEventListener("change", () => target.setHandVisible(handToggle.checked));
+      pointToggle?.addEventListener("change", () => target.setGuidePointVisible(pointToggle.checked));
 
       playButton.addEventListener("click", () => target.play());
     } catch (error) {
