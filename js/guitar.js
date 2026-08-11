@@ -3,7 +3,7 @@
   "use strict";
 
   const SVG_NS = "http://www.w3.org/2000/svg";
-  const VIEWBOX = { width: 1200, height: 300 };
+  const VIEWBOX = { width: 1200, height: 330 };
   const NECK = { left: 24, right: 30, bottomLeft: 276, bottomRight: 270 };
   const NUT_X = 62;
   const FRET_X = [166, 265, 359, 448, 533, 613, 689, 761, 829, 894, 955, 1013];
@@ -184,8 +184,8 @@
         group.append(svgElement("ellipse", {
           cx: x,
           cy: y,
-          rx: 11,
-          ry: 8,
+          rx: 8.25,
+          ry: 6,
           fill: "#dedbcf",
           style: "fill: #dedbcf",
           stroke: "#f5f1e5",
@@ -229,6 +229,16 @@
     return group;
   }
 
+  function createFretNumbers() {
+    const group = layer("Fret-numbers");
+    FRET_X.forEach((x, index) => {
+      const label = svgElement("text", { x: fretCenter(index + 1), y: 319 });
+      label.textContent = String(index + 1);
+      group.append(label);
+    });
+    return group;
+  }
+
   function createFretboardMaster() {
     const svg = svgElement("svg", {
       class: "fretboard-master",
@@ -251,7 +261,8 @@
       createNut(),
       createFrets(),
       createInlays(),
-      createStrings()
+      createStrings(),
+      createFretNumbers()
     );
     return svg;
   }

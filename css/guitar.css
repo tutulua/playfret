@@ -1,12 +1,14 @@
 .fretboard-wrap {
   position: relative;
-  width: 100%;
-  height: min(70vh, 100%);
-  min-height: 300px;
+  width: 80%;
+  height: auto;
+  aspect-ratio: 1200 / 330;
+  min-height: 0;
+  margin-inline: auto;
   overflow: hidden;
   border-block: 1px solid #242629;
   background: #090a0b;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, .38);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .48), 0 3px 9px rgba(0, 0, 0, .32);
   isolation: isolate;
 }
 
@@ -17,9 +19,10 @@
 .fretboard-master__frets { stroke: url(#master-fret); stroke-linecap: round; }
 .fretboard-master__nut { filter: drop-shadow(3px 0 2px rgba(0, 0, 0, .85)); }
 .fretboard-master__inlays { fill: url(#master-inlay); opacity: .82; }
+.fretboard-master__fret-numbers { fill: #85898f; font: 600 12px "DM Sans", sans-serif; text-anchor: middle; }
 .fretboard-master__string { fill: none; stroke: url(#master-string); stroke-linecap: round; filter: url(#master-string-shadow); }
 .fretboard-master__string line { transform-box: fill-box; transform-origin: center; }
 .guide-point { fill: #42d36b; stroke: #fff; stroke-width: 1.5; filter: drop-shadow(0 0 5px rgba(66, 211, 107, .7)); pointer-events: none; }
 
-@media (max-width: 600px) { .fretboard-wrap { min-height: 300px; } }
-@media (max-height: 620px) and (orientation: landscape) { .fretboard-wrap { height: 100%; min-height: 220px; } }
+@media (max-width: 600px) { .fretboard-wrap { width: 94%; } }
+@media (max-height: 620px) and (orientation: landscape) { .fretboard-wrap { width: 80%; min-height: 0; } }
