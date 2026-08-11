@@ -24,4 +24,25 @@
 .fretboard-master__fret-numbers { fill: #92969c; font: 600 18px "DM Sans", sans-serif; text-anchor: middle; }
 .fretboard-master__string { fill: none; stroke: url(#master-string); stroke-linecap: round; filter: url(#master-string-shadow); }
 .fretboard-master__string line { transform-box: fill-box; transform-origin: center; }
-.guide-point { fill: #42d36b; stroke: #fff; stroke-width: 1.5; filter: drop-shadow(0 0 5px rgba(66, 211, 107, .7)); pointer-events: none; }
+.target-marker {
+  fill: #dfff74;
+  stroke: rgba(86, 213, 102, .82);
+  stroke-width: 20px;
+  filter: drop-shadow(0 0 7px rgba(66, 211, 107, .24));
+  pointer-events: none;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: target-marker-idle 1.2s ease-in-out infinite;
+}
+
+.target-marker--active { animation: target-marker-activate 180ms ease-out, target-marker-idle 1.2s ease-in-out 180ms infinite; }
+
+@keyframes target-marker-idle {
+  0%, 100% { opacity: .9; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes target-marker-activate {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+}
