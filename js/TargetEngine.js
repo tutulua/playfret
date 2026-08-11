@@ -20,6 +20,31 @@
     return from + ((to - from) * progress);
   }
 
+  /** Visual target component. Its hit area is exposed for future hand collisions. */
+  class TargetMarker {
+    constructor(radius) {
+      this.element = svgNode("circle", {
+        class: "target-marker",
+        r: radius,
+        "aria-hidden": "true",
+        "data-target-marker": ""
+      });
+      this.element.style.display = "none";
+      this.element.activate = () => this.activate();
+      this.element.getCollisionBounds = () => this.getCollisionBounds();
+    }
+
+    activate() {
+      this.element.classList.remove("target-marker--active");
+      void this.element.getBoundingClientRect();
+      this.element.classList.add("target-marker--active");
+    }
+
+    getCollisionBounds() {
+      return this.element.getBoundingClientRect();
+    }
+  }
+
 
   class TargetEngine {
     constructor(fretboardContainer, options = {}) {
@@ -135,13 +160,8 @@
     createPoint() {
       const strings = [...this.svg.querySelectorAll("[data-string-index] line")];
       if (strings.length < 2) throw new Error("El mástil no expone la separación entre cuerdas.");
-      const spacing = Math.abs(numberAttribute(strings[1], "y1") - numberAttribute(strings[0], "y1"));
-      const point = svgNode("circle", {
-        class: "guide-point",
-        r: spacing * 0.3,
-        "aria-hidden": "true"
-      });
-      point.style.display = "none";
+      // The 12-unit core plus a 10-unit ring on each side forms the 32-unit marker.
+      const point = new TargetMarker(6).element;
       this.svg.append(point);
       return point;
     }
