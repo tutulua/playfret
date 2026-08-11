@@ -1,4 +1,4 @@
-/** Coordinates lesson targets and renders the animated guide hand. */
+/** Coordinates and renders lesson targets on the PlayFret fretboard. */
 (function targetEngineModule(global) {
   "use strict";
 
@@ -32,8 +32,6 @@
       this.frame = null;
       this.startedAt = 0;
       this.isPlaying = false;
-      if (!global.PlayFret?.HandEngine) throw new Error("Carga HandEngine antes de TargetEngine.");
-      this.hand = new global.PlayFret.HandEngine(this.svg);
       this.showGuidePoint = Boolean(options.showGuidePoint);
       this.point = this.createPoint();
       this.tick = this.tick.bind(this);
@@ -47,11 +45,6 @@
         return Object.freeze({ ...valid, ...this.getPosition(valid.string, valid.fret) });
       }));
       this.renderPreview();
-    }
-
-    setHandVisible(visible) {
-      this.hand.setVisible(visible);
-      if (visible && !this.isPlaying) this.renderPreview();
     }
 
     setGuidePointVisible(visible) {
@@ -77,10 +70,9 @@
     tick(now) {
       if (!this.isPlaying) return;
       const elapsed = now - this.startedAt;
-      const total = this.hand.playbackDuration(this.sequence);
-      const pose = this.hand.poseAt(this.sequence, elapsed);
-      this.hand.render(pose);
-      this.renderPointAt(this.hand.lessonTime(elapsed));
+      const last = this.sequence[this.sequence.length - 1];
+      const total = last.time + last.duration;
+      this.renderPointAt(elapsed);
 
       if (elapsed < total) {
         this.frame = global.requestAnimationFrame(this.tick);
@@ -93,7 +85,6 @@
     renderPreview() {
       if (!this.sequence.length) return;
       const first = this.sequence[0];
-      this.hand.render(this.hand.poseAt(this.sequence));
       this.renderPoint(first);
     }
 
@@ -142,9 +133,12 @@
     }
 
     createPoint() {
+      const strings = [...this.svg.querySelectorAll("[data-string-index] line")];
+      if (strings.length < 2) throw new Error("El mástil no expone la separación entre cuerdas.");
+      const spacing = Math.abs(numberAttribute(strings[1], "y1") - numberAttribute(strings[0], "y1"));
       const point = svgNode("circle", {
         class: "guide-point",
-        r: this.hand.geometry.spacing * 0.3,
+        r: spacing * 0.3,
         "aria-hidden": "true"
       });
       point.style.display = "none";

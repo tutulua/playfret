@@ -38,9 +38,7 @@
         duration: durationMs
       })));
 
-      const handToggle = document.querySelector("[data-show-guide-hand]");
       const pointToggle = document.querySelector("[data-show-guide-point]");
-      handToggle?.addEventListener("change", () => target.setHandVisible(handToggle.checked));
       pointToggle?.addEventListener("change", () => target.setGuidePointVisible(pointToggle.checked));
 
       playButton.addEventListener("click", () => target.play());
