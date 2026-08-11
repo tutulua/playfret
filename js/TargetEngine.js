@@ -58,7 +58,7 @@
         : "drop-shadow(0 0 4px rgba(255, 200, 61, .12))";
       this.fingerHint.style.fontSize = isCurrent ? "14px" : "12px";
       this.circle.classList.toggle("target-marker", isCurrent);
-      if (!isCurrent) this.element.classList.remove("target-marker--active");
+      if (!isCurrent) this.circle.classList.remove("target-marker--active");
     }
 
     setFinger(finger) {
@@ -68,9 +68,9 @@
     }
 
     activate() {
-      this.element.classList.remove("target-marker--active");
-      void this.element.getBoundingClientRect();
-      this.element.classList.add("target-marker--active");
+      this.circle.classList.remove("target-marker--active");
+      void this.circle.getBoundingClientRect();
+      this.circle.classList.add("target-marker--active");
     }
 
     getCollisionBounds() {
