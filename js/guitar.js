@@ -15,12 +15,12 @@
   );
   const INLAY_FRETS = [3, 5, 7, 9, 12];
   const STRINGS = [
-    { name: "low-e", label: "E", gauge: 5.2, color: "#97958f" },
-    { name: "a", label: "A", gauge: 4.3, color: "#aaa8a1" },
-    { name: "d", label: "D", gauge: 3.5, color: "#bebbb4" },
-    { name: "g", label: "G", gauge: 1.9, color: "#cbc9c3" },
-    { name: "b", label: "B", gauge: 1.3, color: "#d9d6cf" },
-    { name: "high-e", label: "e", gauge: 0.85, color: "#e5e2da" }
+    { name: "low-e", label: "E", gauge: 5.8, color: "#8e8b84" },
+    { name: "a", label: "A", gauge: 4.7, color: "#a4a19a" },
+    { name: "d", label: "D", gauge: 3.7, color: "#b8b5ae" },
+    { name: "g", label: "G", gauge: 2.15, color: "#c9c6bf" },
+    { name: "b", label: "B", gauge: 1.25, color: "#d8d5ce" },
+    { name: "high-e", label: "e", gauge: 0.65, color: "#ece9e2" }
   ];
 
   function svgElement(tag, attributes = {}) {
@@ -62,9 +62,11 @@
 
     const wood = svgElement("linearGradient", { id: "master-wood", x1: 0, y1: 0, x2: 0, y2: 1 });
     wood.append(
-      svgElement("stop", { "stop-color": "#4a2a1d" }),
+      svgElement("stop", { "stop-color": "#26140f" }),
+      svgElement("stop", { offset: 0.08, "stop-color": "#43251a" }),
       svgElement("stop", { offset: 0.5, "stop-color": "#2b1711" }),
-      svgElement("stop", { offset: 1, "stop-color": "#3b2017" })
+      svgElement("stop", { offset: 0.92, "stop-color": "#392017" }),
+      svgElement("stop", { offset: 1, "stop-color": "#1d0f0c" })
     );
 
     const metal = svgElement("linearGradient", { id: "master-fret", x1: 0, y1: 0, x2: 1, y2: 0 });
@@ -92,7 +94,44 @@
       svgElement("stop", { offset: 1, "stop-color": "#fff", "stop-opacity": 0 })
     );
 
-    definitions.append(background, wood, metal, nut, fretHighlight);
+    const inlay = svgElement("radialGradient", { id: "master-inlay", cx: 0.38, cy: 0.3, r: 0.72 });
+    inlay.append(
+      svgElement("stop", { "stop-color": "#fffdf4" }),
+      svgElement("stop", { offset: 0.42, "stop-color": "#d8d4c8" }),
+      svgElement("stop", { offset: 1, "stop-color": "#8e8b83" })
+    );
+
+    const inlayShadow = svgElement("filter", { id: "master-inlay-shadow", x: "-35%", y: "-45%", width: "170%", height: "190%" });
+    inlayShadow.append(svgElement("feDropShadow", {
+      dx: 0,
+      dy: 1.5,
+      stdDeviation: 1.2,
+      "flood-color": "#080403",
+      "flood-opacity": 0.72
+    }));
+
+    const stringShadow = svgElement("filter", { id: "master-string-shadow", x: "-2%", y: "-100%", width: "104%", height: "300%" });
+    stringShadow.append(svgElement("feDropShadow", {
+      dx: 0,
+      dy: 1.2,
+      stdDeviation: 0.7,
+      "flood-color": "#050505",
+      "flood-opacity": 0.78
+    }));
+
+    const stringGradients = STRINGS.map((string, index) => {
+      const gradient = svgElement("linearGradient", { id: `master-string-${index + 1}`, x1: 0, y1: 0, x2: 1, y2: 0 });
+      gradient.append(
+        svgElement("stop", { "stop-color": string.color }),
+        svgElement("stop", { offset: 0.36, "stop-color": "#f5f2e9" }),
+        svgElement("stop", { offset: 0.52, "stop-color": string.color }),
+        svgElement("stop", { offset: 0.82, "stop-color": "#d8d5cc" }),
+        svgElement("stop", { offset: 1, "stop-color": string.color })
+      );
+      return gradient;
+    });
+
+    definitions.append(background, wood, metal, nut, fretHighlight, inlay, inlayShadow, stringShadow, ...stringGradients);
     return definitions;
   }
 
@@ -169,29 +208,29 @@
       const top = neckTopAt(x);
       const bottom = neckBottomAt(x);
       group.append(svgElement("rect", {
-        x: x - 1.65,
+        x: x - 1.3,
         y: top,
-        width: 3.3,
+        width: 2.6,
         height: bottom - top,
-        rx: 1.65,
+        rx: 1.3,
         fill: "url(#master-fret)",
         "data-fret": index + 1
       }), svgElement("rect", {
-        x: x - 0.85,
+        x: x - 0.72,
         y: top + 1,
-        width: 1.15,
+        width: 0.8,
         height: bottom - top - 2,
         rx: 0.58,
         fill: "url(#master-fret-highlight)",
         "pointer-events": "none"
       }), svgElement("line", {
-        x1: x + 1.15,
+        x1: x + 0.92,
         y1: top + 2,
-        x2: x + 1.15,
+        x2: x + 0.92,
         y2: bottom - 2,
-        stroke: "#252421",
-        "stroke-width": 0.65,
-        opacity: 0.7,
+        stroke: "#171614",
+        "stroke-width": 0.55,
+        opacity: 0.82,
         "pointer-events": "none"
       }));
     });
@@ -216,12 +255,12 @@
         group.append(svgElement("ellipse", {
           cx: x,
           cy: y,
-          rx: 8.25,
-          ry: 6,
-          fill: "#dedbcf",
-          style: "fill: #dedbcf",
-          stroke: "#f5f1e5",
-          "stroke-width": 1,
+          rx: 7.25,
+          ry: 5.2,
+          fill: "url(#master-inlay)",
+          stroke: "#eae6da",
+          "stroke-width": 0.65,
+          filter: "url(#master-inlay-shadow)",
           "data-inlay-fret": fretNumber
         }));
       });
@@ -250,8 +289,7 @@
         y1: startTop + ((startBottom - startTop) * ratio),
         x2: VIEWBOX.width,
         y2: endTop + ((endBottom - endTop) * ratio),
-        stroke: string.color,
-        style: `stroke: ${string.color}`,
+        stroke: `url(#master-string-${index + 1})`,
         "stroke-width": string.gauge,
         "stroke-linecap": "round",
         "aria-label": `Cuerda ${string.label}`
